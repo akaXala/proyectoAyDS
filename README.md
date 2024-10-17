@@ -3,5 +3,5 @@
 <hr>
 <h4>Proyecto Club de Leones</h4>
 <p>Repositorio para el desarollo de la aplicación</p>
-<br><hr>
+<hr>
 <p>El changelog lo puedes encontrar en <a href="akaXala.github.io">aquí</a></p>
