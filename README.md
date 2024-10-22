@@ -13,7 +13,7 @@ Repositorio para el desarollo de la aplicación y el changelog
 git clone https://github.com/akaXala/proyectoAyDS.git
 ```
 
- En caso de no tener git, clonar con Github Desktop (para poder sincronizar de forma fácil) o directamente descargar los archivos y hacer los cambios de la página de GitHub
+ - En caso de no tener git, clonar con Github Desktop (para poder sincronizar de forma fácil) o directamente descargar los archivos y hacer los cambios de la página de GitHub
 
 - Una vez clonado el repositorio ir a la carpeta donde este ha sido clonado
 - El proyecto ya esta configurado, puedes compilar el proyecto con:
