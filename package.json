@@ -1,0 +1,18 @@
+{
+  "name": "proyectoayds",
+  "version": "1.0.0",
+  "description": "<h1>Proyecto AyDS</h1>\r <h2>Proyecto para Análisis y Diseño de Sistemas 2025/1</h2>\r <hr>\r <h4>Proyecto Club de Leones</h4>\r <p>Repositorio para el desarollo de la aplicación y el changelog</p>\r <hr>\r <p>El changelog lo vamos a desarrollar aquí y despues lo subimos al dominio</p>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node dist/prueba.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.7.8",
+    "typescript": "^5.6.3"
+  }
+}
