@@ -1,33 +1,73 @@
-# Proyecto AyDS
-Proyecto para Análisis y Diseño de Sistemas 2025/1
+# Club de Leones AyDS 2025-1
 
-## Proyecto Club de Leones
-Repositorio para el desarollo de la aplicación y el changelog
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Requisitos
-- Tener instalado **node.js**
+## Nota
 
-## Instrucciones
-- Clonar el repositorio con:
+Es importante tener **yarn**, ya que la instalación con **npm** tiene conflictos con la nueva versión de React y las librerias.
+
+## Instalación Yarn
+
+Instala Yarn con el siguiente comando.
+
 ```bash
-git clone https://github.com/akaXala/proyectoAyDS.git
+npm install -g yarn # -g para instalarlo global
 ```
 
-- En caso de no tener git, clonar con Github Desktop (para poder sincronizar de forma fácil) o directamente descargar los archivos y hacer los cambios de la página de GitHub
-
-- Una vez clonado el repositorio ir a la carpeta donde este ha sido clonado
-- El proyecto ya esta configurado, puedes compilar el proyecto con:
 ```bash
-npm run build
-```
-- Una vez compilado el proyecto puedes correlo con:
-```bash
-npm start
+yarn --version # Da la versión del Yarn
 ```
 
-- Esto imprimira un "hola mundo" (sujeto a cambios)
+Si no te deja ejecutar Yarn, en el PowerShell ejecuta el siguiente comando.
 
-## Consideraciones
-- En la carpeta *src* se encuentran todos los archivos TypeScript
-- Al compilar los TypeScript podrás encontrar los JavaScript en *dist*
-- En el archivo *tsconfig.json* podrás cambiar la ruta de donde se encuentran los TS y donde quieres que se guarden los JS, aunque **NO ES RECOMENDADO** cambiar las rutas
+```bash
+Set-ExecutionPolicy Unrestricted # Permite que Yarn se ejecute en consola
+```
+
+## Getting Started
+
+Clona el repositorio.
+
+```bash
+git clone https://github.com/eddn-dev/calculadora.git
+```
+
+Para el instalar y ejecutar el proyecto usamos **yarn**.
+
+```bash
+yarn install # Descarga las dependencias necesarias del proyecto
+```
+```bash
+yarn dev # Compila y corre la página en el puerto 3000
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Creación objetos a partir entidades DB
+
+Para crear objetos a partir de las entidades de la base de datos es necesario tener **pg-to-ts**, además de tener las credenciales de la DB y el certificado de .
+
+Una vez tengas todos, ejecuta el siguiente comando con las respectivas credenciales y certificado.
+
+```bash
+npx pg-to-ts generate --conn "postgres://<nombreAdministrador>:<contraseña>@<URL>:5432/<nombreDelSchema>?ssl=true&sslrootcert=<./rutaAlCertificadoPem>" --output ./src/ts/schemas.ts
+```
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

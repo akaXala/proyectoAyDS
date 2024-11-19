@@ -1,18 +1,29 @@
 {
-  "name": "proyectoayds",
-  "version": "1.0.0",
-  "description": "<h1>Proyecto AyDS</h1>\r <h2>Proyecto para Análisis y Diseño de Sistemas 2025/1</h2>\r <hr>\r <h4>Proyecto Club de Leones</h4>\r <p>Repositorio para el desarollo de la aplicación y el changelog</p>\r <hr>\r <p>El changelog lo vamos a desarrollar aquí y despues lo subimos al dominio</p>",
-  "main": "index.js",
+  "name": "dbts",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
-    "start": "node dist/prueba.js"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "dependencies": {
+    "next": "15.0.3",
+    "pg": "^8.13.1",
+    "react": "19.0.0-rc-66855b96-20241106",
+    "react-dom": "19.0.0-rc-66855b96-20241106"
+  },
   "devDependencies": {
-    "@types/node": "^22.7.8",
-    "typescript": "^5.6.3"
+    "@types/node": "^20",
+    "@types/pg": "^8.11.10",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "15.0.3",
+    "pg-to-ts": "^4.1.1",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
   }
 }
