@@ -18,7 +18,7 @@ npm install -g yarn # -g para instalarlo global
 yarn --version # Da la versión del Yarn
 ```
 
-Si no te deja ejecutar Yarn, en el PowerShell ejecuta el siguiente comando.
+Para ejecutar Yarn en terminal, ejecuta el siguiente comando en el PowerShell como administrador.
 
 ```bash
 Set-ExecutionPolicy Unrestricted # Permite que Yarn se ejecute en consola
