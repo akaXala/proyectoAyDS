@@ -3,11 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --background: #e3db71;
+  --background: #fffab1;
   --foreground: #000000;
   --text: #F2C438;
   --accent: #F29A2E;
-  --five: #D95A4E;
+  
+  --button: #dc776e;
+  --buttonHover: #D95A4E;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -17,7 +19,9 @@
     --foreground2: #A89B3A;
     --text: #C9A02D;
     --accent: #C77623;
-    --five: #A64434;
+
+    --button: #A64434;
+    --buttonHover: #72291e;
   }
 }
 
@@ -25,4 +29,18 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.button {
+  background-color: var(--button);
+  color: var(--foreground);
+}
+
+.button:hover {
+  background-color: var(--buttonHover);
+}
+
+.modal {
+  color: var(--foreground);
+  background: var(--background);
 }

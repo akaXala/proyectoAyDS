@@ -1,5 +1,11 @@
+"use client";
+
 import React, { useState } from "react";
 import { Box, Tab, Tabs, Typography } from "@mui/material";
+
+// Componentes del Login y Signup
+import Login from "@/components/Login";
+import Signup from "@/components/Signup";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -20,7 +26,7 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          {children}
         </Box>
       )}
     </div>
@@ -42,18 +48,31 @@ const TabsComponent: React.FC = () => {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs value={value} onChange={handleChange} aria-label="auth tabs">
+    <Box
+      sx={{
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+      className='modal'
+    >
+      <Box sx={{ width: "100%", borderBottom: 1, borderColor: "divider", textAlign: "center" }}>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="auth tabs"
+          centered
+        >
           <Tab label="Registrate" {...a11yProps(0)} />
           <Tab label="Acceder" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        a
+        <Login />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        a
+        <Signup />
       </TabPanel>
     </Box>
   );
