@@ -44,3 +44,7 @@ body {
   color: var(--foreground);
   background: var(--background);
 }
+
+.text-field {
+  width: 220px;
+}
