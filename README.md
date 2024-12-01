@@ -61,14 +61,14 @@ npx pg-to-ts generate --conn "postgres://<nombreAdministrador>:<contraseña>@<UR
 
 Estas son las librerias ocupadas por el proyecto
 
-- Diseño
- - Material UI (MUI)
- - MUI X
- - SweetAlert
+* Diseño
+ * Material UI (MUI)
+ * MUI X
+ * SweetAlert
 
-- Funcionalidad
- - bcrypt
- - pg-to-ts
+* Funcionalidad
+ * bcrypt
+ * pg-to-ts
 
 ## Learn More
 
