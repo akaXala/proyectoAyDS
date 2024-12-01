@@ -16,6 +16,9 @@ import { expresiones, mensajesError } from "@/ts/validations";
 // Objeto Competidor
 import Competidor from "@/ts/schemas/Competidor";
 
+// Alertas de SweetAlert
+import { ejecutarAlerta } from "@/components/sweetAlert/Alerts";
+
 // Opciones para sexo
 const SexoPersona = [
   { value: "Femenino", label: "Femenino" },
@@ -93,7 +96,7 @@ const Signup: React.FC = () => {
     }
   
     if (formData.contrasena !== formData.contrasena2) {
-      alert("Las contraseñas no coinciden");
+      alert('error');
       return;
     }
   

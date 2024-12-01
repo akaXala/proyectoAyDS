@@ -1,5 +1,5 @@
 // Alertas SweetAlert
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
 const Toast = Swal.mixin({
     toast: true,

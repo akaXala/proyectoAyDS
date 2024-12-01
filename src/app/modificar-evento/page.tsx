@@ -17,15 +17,6 @@ import { ThemeProvider } from '@emotion/react';
 // Alertas de SweetAlert
 import { mostrarAlerta } from '@/components/sweetAlert/ModalAlerts';
 
-// Opciones para sexo
-const EventoClub = [
-    { value: "1", label: "Acuatlón bajo techo" },
-    { value: "2", label: "Rodada in-doors" },
-    { value: "3", label: "Carrera 5k en cinta" },
-    { value: "4", label: "Carrera 5k en exterior" },
-    { value: "5", label: "Triatlon in-doors" },
-];
-
 // Opciones para modalidad
 const Modalidad = [
   { value: "Individual", label: "Individual" },
@@ -72,7 +63,7 @@ export default function Home() {
             <CssBaseline>
                 <Grid2 container spacing={2} alignItems="center" justifyContent="center" margin={2} marginTop={2}>
                     <Typography variant='h3' className='text-center'>
-                        Registrar evento
+                        Modificar evento
                     </Typography>
                 </Grid2>
                 <Grid2 container spacing={5} alignItems="center" justifyContent="center" className="text-center">
@@ -80,19 +71,31 @@ export default function Home() {
                         <Grid2 container spacing={2} marginTop={2}>
                             <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                                 <TextField
-                                    id="evento"
-                                    select
-                                    label="Evento del club"
+                                    id="nombreEvento"
+                                    label="Nombre del evento"
                                     size="small"
                                     className='text-field'
                                     required
-                                >
-                                    {EventoClub.map((option) => (
-                                        <MenuItem key={option.value} value={option.value}>
-                                            {option.label}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
+                                />
+                            </Grid2>
+                            <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                                <TextField
+                                    id="tipoEvento"
+                                    label="Tipo del evento"
+                                    size="small"
+                                    className='text-field'
+                                    required
+                                />
+                            </Grid2>
+                            <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                                <TextField
+                                    id="capacidadEvento"
+                                    label="Capacidad del evento"
+                                    type='number'
+                                    size="small"
+                                    className='text-field'
+                                    required
+                                />
                             </Grid2>
                             <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -202,7 +205,7 @@ export default function Home() {
                                     ))}
                                 </TextField>
                             </Grid2>
-                            <Grid2 size={{ xs: 12, sm: 6 }}>
+                            <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                               <TextField
                                       id="costo"
                                       select
@@ -219,7 +222,7 @@ export default function Home() {
                                     ))}
                                 </TextField>
                             </Grid2>
-                            <Grid2 size={{ xs: 12, sm: 6 }}>
+                            <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                               <TextField
                                 id="precio"
                                 label="Cantidad en MXN"
@@ -272,7 +275,7 @@ export default function Home() {
                               className="button px-4 py-2 rounded"
                               type="submit"
                           >
-                              Registrar evento
+                                Modificar evento
                           </Button>
                       </Grid2>
                     </form>

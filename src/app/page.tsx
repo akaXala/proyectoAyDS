@@ -23,7 +23,7 @@ export default function Home() {
             <CssBaseline />
             <div>
                 <Box sx={{ flexGrow: 1 }}>
-                    <Grid2 container spacing={2} alignItems="center" justifyContent="center" margin={2} marginTop={2}>
+                    <Grid2 container spacing={2} alignItems="center" justifyContent="center" marginTop={1}>
                         <Typography variant="h3">Club de Leones</Typography>
                     </Grid2>
                 </Box>
