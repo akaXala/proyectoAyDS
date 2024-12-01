@@ -1,54 +1,68 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import pool from "@/config/database"; // Conexión a PostgreSQL
+import pool from "@/config/database"; // Tu conexión a PostgreSQL
 
 export const POST = async (req: NextRequest) => {
   try {
-    // Procesar el cuerpo de la solicitud
-    const body = await req.json();
-    console.log("Datos recibidos en el servidor:", body); // Debugging
+    const body = await req.json(); // Obtén los datos del cuerpo de la solicitud
 
-    const { email, contrasena } = body;
+    const {
+      nombre,
+      apellidoPaterno,
+      apellidoMaterno,
+      fechaNacimiento,
+      genero,
+      email,
+      telefono,
+      contrasena,
+    } = body;
 
-    // Validar que ambos campos estén presentes
-    if (!email || !contrasena) {
+    // Valida campos requeridos
+    if (!nombre || !apellidoPaterno || !email || !contrasena) {
       return NextResponse.json(
-        { success: false, error: "Correo y contraseña son obligatorios" },
+        { success: false, error: "Faltan campos obligatorios" },
         { status: 400 }
       );
     }
 
-    // Buscar el usuario en la base de datos por correo
-    const query = `SELECT contraseña FROM Competidor WHERE email = $1`;
-    const result = await pool.query(query, [email]);
+    // Hashea la contraseña
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(contrasena, saltRounds);
 
-    // Verificar si el usuario existe
-    if (result.rows.length === 0) {
-      return NextResponse.json(
-        { success: false, error: "Correo no registrado" },
-        { status: 404 }
-      );
-    }
+    // Inserta datos en la base de datos
+    const query = `
+      INSERT INTO Competidor (
+        nombre,
+        apellido_paterno,
+        apellido_materno,
+        fecha_nacimiento,
+        genero,
+        email,
+        telefono,
+        contraseña
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+      RETURNING id_competidor;
+    `;
 
-    const hashedPassword = result.rows[0].contraseña;
+    const values = [
+      nombre,
+      apellidoPaterno,
+      apellidoMaterno || null,
+      fechaNacimiento || null,
+      genero || null,
+      email,
+      telefono || null,
+      hashedPassword,
+    ];
 
-    // Comparar la contraseña ingresada con la almacenada
-    const isPasswordValid = await bcrypt.compare(contrasena, hashedPassword);
+    const result = await pool.query(query, values);
 
-    if (!isPasswordValid) {
-      return NextResponse.json(
-        { success: false, error: "Contraseña incorrecta" },
-        { status: 401 }
-      );
-    }
-
-    // Respuesta exitosa
     return NextResponse.json(
-      { success: true, message: "Sesión iniciada correctamente" },
-      { status: 200 }
+      { success: true, id: result.rows[0].id_competidor },
+      { status: 201 }
     );
   } catch (error) {
-    console.error("Error en el inicio de sesión:", error);
+    console.error("Error en el registro:", error);
     return NextResponse.json(
       { success: false, error: "Error interno del servidor" },
       { status: 500 }

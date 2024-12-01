@@ -69,10 +69,10 @@ const TabsComponent: React.FC = () => {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Login />
+        <Signup />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Signup />
+        <Login />
       </TabPanel>
     </Box>
   );
