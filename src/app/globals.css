@@ -46,14 +46,10 @@ body {
 }
 
 .text-field {
-  width: 220px;
+  width: 100%;
 }
 
-.text-field-xl {
-  width: 565px;
-}
-
-/* Estilos SweetAlert*/
+/* Estilos SweetAlert */
 .colored-toast.swal2-icon-success {
   background-color: #a5dc86 !important;
 }

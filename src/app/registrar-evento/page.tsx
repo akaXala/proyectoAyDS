@@ -44,9 +44,6 @@ export default function Home() {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)'); // Detecta el modo de sistema
     const theme = React.useMemo(() => (prefersDarkMode ? darkTheme : lightTheme), [prefersDarkMode]);
 
-    // Modificador para los TextField
-    const isMobile = useMediaQuery('(max-width:600px)');
-
     // Estados para cada fecha
     const [fechaInicioEvento, setFechaInicioEvento] = React.useState<Dayjs | null>(null);
     const [fechaFinEvento, setFechaFinEvento] = React.useState<Dayjs | null>(null);
@@ -75,10 +72,10 @@ export default function Home() {
                         Registrar evento
                     </Typography>
                 </Grid2>
-                <Grid2 container spacing={5} alignItems="center" justifyContent="center" className="text-center">
+                <Grid2 container spacing={5} alignItems="center" justifyContent="center" className="text-center" marginX={5}>
                     <form onSubmit={handleSubmit}>
                         <Grid2 container spacing={2} marginTop={2}>
-                            <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                            <Grid2 size={{ xs: 12, sm: 6, md: 3 }}>
                                 <TextField
                                     id="evento"
                                     select
@@ -94,7 +91,7 @@ export default function Home() {
                                     ))}
                                 </TextField>
                             </Grid2>
-                            <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                            <Grid2 size={{ xs: 12, sm: 6, md: 3 }}>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker
                                     label="Fecha inicio evento"
@@ -110,7 +107,7 @@ export default function Home() {
                                 />
                                 </LocalizationProvider>
                             </Grid2>
-                            <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                            <Grid2 size={{ xs: 12, sm: 6, md: 3 }}>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DatePicker
                                         label="Fecha fin evento"
@@ -126,7 +123,7 @@ export default function Home() {
                                     />
                                 </LocalizationProvider>
                             </Grid2>
-                            <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                            <Grid2 size={{ xs: 12, sm: 6, md: 3 }}>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DatePicker
                                         label="Fecha inicio inscripción"
@@ -142,7 +139,7 @@ export default function Home() {
                                     />
                                 </LocalizationProvider>
                             </Grid2>
-                            <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                            <Grid2 size={{ xs: 12, sm: 6, md: 3 }}>
                               <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker
                                     label="Fecha fin inscripción"
@@ -158,7 +155,7 @@ export default function Home() {
                                 />
                               </LocalizationProvider>
                             </Grid2>
-                            <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                            <Grid2 size={{ xs: 12, sm: 6, md: 3 }}>
                               <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <TimePicker
                                   label="Horario de inicio"
@@ -172,7 +169,7 @@ export default function Home() {
                                 />
                               </LocalizationProvider>
                             </Grid2>
-                            <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                            <Grid2 size={{ xs: 12, sm: 6, md: 3 }}>
                               <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <TimePicker
                                   label="Horario de termino"
@@ -186,7 +183,7 @@ export default function Home() {
                                 />
                               </LocalizationProvider>
                             </Grid2>
-                            <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                            <Grid2 size={{ xs: 12, sm: 6, md: 3 }}>
                                 <TextField
                                     id="modalidad"
                                     select
@@ -236,7 +233,7 @@ export default function Home() {
                                 label="Requisitos"
                                 variant="outlined"
                                 size="small"
-                                className={isMobile ? "text-field" : "text-field-xl"}
+                                className="text-field"
                                 multiline
                                 rows={3}
                                 required
@@ -248,7 +245,7 @@ export default function Home() {
                                 label="Reglas"
                                 variant="outlined"
                                 size="small"
-                                className={isMobile ? "text-field" : "text-field-xl"}
+                                className="text-field"
                                 multiline
                                 rows={3}
                                 required
@@ -260,7 +257,7 @@ export default function Home() {
                                 label="Descripción del evento"
                                 variant="outlined"
                                 size="small"
-                                className={isMobile ? "text-field" : "text-field-xl"}
+                                className="text-field"
                                 multiline
                                 rows={5}
                                 required

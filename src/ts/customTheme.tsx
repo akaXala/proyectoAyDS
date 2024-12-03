@@ -4,7 +4,7 @@ import '@fontsource/quicksand';
 const lightTheme = createTheme({
     palette: {
         mode: 'light',
-        primary: { main: '#4caf50' },
+        primary: { main: '#D95A4E' },
         secondary: { main: '#ff5722' },
     },
     typography: {
@@ -16,13 +16,13 @@ const lightTheme = createTheme({
                 root: {
                     '& .MuiOutlinedInput-root': {
                         '& fieldset': {
-                            borderColor: '#4caf50', // Borde verde
+                            borderColor: '#D95A4E', // Borde naranja
                         },
                         '&:hover fieldset': {
-                            borderColor: '#81c784', // Borde más claro al pasar el mouse
+                            borderColor: '#dc776e', // Borde más claro al pasar el mouse
                         },
                         '&.Mui-focused fieldset': {
-                            borderColor: '#388e3c', // Borde más oscuro al enfocar
+                            borderColor: '#b7463b', // Borde más oscuro al enfocar
                         },
                     },
                 },

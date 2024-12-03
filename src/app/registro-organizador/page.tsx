@@ -15,6 +15,9 @@ export default function Home(){
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     const theme = React.useMemo(() => (prefersDarkMode ? darkTheme : lightTheme), [prefersDarkMode]);
 
+    // Modificador para los TextField
+    const isMobile = useMediaQuery('(max-width:600px)');
+
     return(
         <ThemeProvider theme={theme}>
             <CssBaseline>
@@ -23,7 +26,7 @@ export default function Home(){
                         Registro Organizador
                     </Typography>
                 </Box>
-                <Box className='text-center'>
+                <Box className='text-center' marginX={isMobile ? 5 : 30 }>
                     <Signup />
                 </Box>
             </CssBaseline>
