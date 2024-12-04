@@ -11,7 +11,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs, { Dayjs } from "dayjs";
 
 // Validaciones
-import { expresiones, mensajesError } from "@/ts/validations";
+import { expresiones, mensajesError } from "@/ts/validationsSpecial";
 
 // Importar los temas personalizados
 import { lightTheme, darkTheme } from '@/ts/customTheme';
@@ -21,7 +21,17 @@ const SexoPersona = [
     { value: "Femenino", label: "Femenino" },
     { value: "Masculino", label: "Masculino" },
     { value: "Indefinido", label: "Prefiero no decirlo" },
-  ];
+];
+
+interface FormData {
+    nombre: string;
+    apellidoPaterno: string;
+    apellidoMaterno: string;
+    email: string;
+    telefono: string;
+    contrasena: string;
+    genero: string;
+}
 
 export default function Home(){
     // Detecta el modo de color preferido del sistema
@@ -32,14 +42,13 @@ export default function Home(){
     const isMobile = useMediaQuery('(max-width:600px)');
 
     // Estados para cada campo del formulario
-    const [formData, setFormData] = React.useState({
+    const [formData, setFormData] = React.useState<FormData>({
         nombre: "",
         apellidoPaterno: "",
         apellidoMaterno: "",
         email: "",
         telefono: "",
-        contrasena: "",
-        contrasena2: "",
+        contrasena:"",
         genero: "",
     });
 
@@ -89,6 +98,12 @@ export default function Home(){
         return Object.keys(newErrors).length === 0; // Retorna true si no hay errores
     };
 
+    // Función para quitar carácteres especiales del nombre
+    function quitarCaracteresEspeciales(cadena: string): string {
+        // Usamos normalize para transformar los caracteres con diacríticos en su forma base.
+        return cadena.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
     // Manejador para el registro
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -98,49 +113,51 @@ export default function Home(){
         if (!validateForm()) {
         return;
         }
+
+        const newEmail = formData.nombre.charAt(0).toLocaleLowerCase()+
+                         formData.apellidoPaterno.toLocaleLowerCase()+
+                         formData.apellidoMaterno.charAt(0).toLocaleLowerCase()+
+                         "@instructor.clubleones.mx";
+
+        const newContrasena = formData.nombre+(selectedDate ? selectedDate.toISOString().split("T")[0] : null)+formData.apellidoPaterno;
     
-        if (formData.contrasena !== formData.contrasena2) {
-        alert('error');
-        return;
-        }
-    
-        const competidor = {
+        const instructor = {
         nombre: formData.nombre,
         apellidoPaterno: formData.apellidoPaterno,
         apellidoMaterno: formData.apellidoMaterno || null,
         fechaNacimiento: selectedDate ? selectedDate.toISOString().split("T")[0] : null,
         genero: formData.genero || null,
-        email: formData.email,
+        email: quitarCaracteresEspeciales(newEmail),
         telefono: formData.telefono || null,
-        contrasena: formData.contrasena,
+        contrasena: quitarCaracteresEspeciales(newContrasena),
         };
     
         try {
-        const response = await fetch("/api/signup", {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/json",
-            },
-            body: JSON.stringify(competidor),
-        });
-    
-        if (!response.ok) {
-            const errorData = await response.json();
-            alert(`Error al registrar: ${errorData.error}`);
-            return;
-        }
-    
-        const data = await response.json();
-    
-        if (data.success) {
-            alert("¡Competidor registrado exitosamente!");
-            // Limpia el formulario o redirige al usuario
-        } else {
-            alert(`Error al registrar: ${data.error}`);
-        }
+            const response = await fetch("/api/signup-instructor", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(instructor),
+            });
+        
+            if (!response.ok) {
+                const errorData = await response.json();
+                alert(`Error al registrar: ${errorData.error}`);
+                return;
+            }
+        
+            const data = await response.json();
+        
+            if (data.success) {
+                alert("¡Instructor registrado exitosamente!");
+                // Limpia el formulario o redirige al usuario
+            } else {
+                alert(`Error al registrar: ${data.error}`);
+            }
         } catch (error) {
-        console.error("Error al registrar:", error);
-        alert("Hubo un problema con el registro. Inténtalo de nuevo.");
+            console.error("Error al registrar:", error);
+            alert("Hubo un problema con el registro. Inténtalo de nuevo.");
         }
     };
 
@@ -152,7 +169,7 @@ export default function Home(){
                         Registro instructor
                     </Typography>
                 </Grid2>
-                <Grid2 container spacing={5} alignItems="center" justifyContent="center" className="text-center" marginX={5}>
+                <Grid2 container spacing={2} alignItems="center" justifyContent="center" margin={1} marginTop={2}>
                     <form onSubmit={handleSubmit}>
                         <Box margin={2}>
                             <TextField
@@ -250,7 +267,7 @@ export default function Home(){
                             variant="contained"
                             className="button px-4 py-2 rounded"
                             >
-                            Registrarse
+                            Registrar instructor
                             </Button>
                         </Box>
                     </form>

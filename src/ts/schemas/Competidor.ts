@@ -7,7 +7,6 @@ class Competidor {
   private genero: string | null;
   private email: string;
   private telefono: string | null;
-  private contraseña: string;
   private fecha_registro?: Date | null;
   private id_categoria?: number | null;
 
@@ -19,7 +18,6 @@ class Competidor {
     genero: string | null,
     email: string,
     telefono: string | null,
-    contraseña: string,
     id_competidor?: number,
     fecha_registro?: Date | null,
     id_categoria?: number | null
@@ -32,7 +30,6 @@ class Competidor {
     this.genero = genero;
     this.email = email;
     this.telefono = telefono;
-    this.contraseña = contraseña;
     this.fecha_registro = fecha_registro;
     this.id_categoria = id_categoria;
   }
@@ -92,13 +89,6 @@ class Competidor {
   }
   setTelefono(telefono: string | null): void {
     this.telefono = telefono;
-  }
-
-  getContraseña(): string {
-    return this.contraseña;
-  }
-  setContraseña(contraseña: string): void {
-    this.contraseña = contraseña;
   }
 
   getFechaRegistro(): Date | null | undefined {

@@ -31,7 +31,7 @@ export const POST = async (req: NextRequest) => {
 
     // Inserta datos en la base de datos
     const query = `
-      INSERT INTO Competidor (
+      INSERT INTO competidor (
         nombre,
         apellido_paterno,
         apellido_materno,

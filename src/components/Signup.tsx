@@ -26,9 +26,20 @@ const SexoPersona = [
   { value: "Indefinido", label: "Prefiero no decirlo" },
 ];
 
+interface FormData {
+  nombre: string;
+  apellidoPaterno: string;
+  apellidoMaterno: string;
+  email: string;
+  telefono: string;
+  contrasena: string;
+  contrasena2: string;
+  genero: string;
+}
+
 const Signup: React.FC = () => {
   // Estados para cada campo del formulario
-  const [formData, setFormData] = React.useState({
+  const [formData, setFormData] = React.useState<FormData>({
     nombre: "",
     apellidoPaterno: "",
     apellidoMaterno: "",
@@ -140,7 +151,6 @@ const Signup: React.FC = () => {
     }
   };
   
-
   return (
     <form onSubmit={handleSubmit}>
       <Box margin={2}>
