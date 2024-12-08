@@ -114,9 +114,34 @@ export default function Home(){
         return;
         }
 
+        let id = 0;
+
+        try {
+            const response = await fetch("/api/count-instructor", {
+              method: "GET",
+            });
+      
+            if (!response.ok) {
+              throw new Error("Error en la solicitud al servidor");
+            }
+      
+            const data = await response.json();
+      
+            if (data.success) {
+              const count = data.count; // Extraer el conteo del JSON
+              id = count + 1;
+              console.log("Número de usuarios:", count); // Imprimir en consola
+            } else {
+              console.error("Error del servidor:", data.error);
+            }
+          } catch (error) {
+            console.error("Error al comunicarse con el servidor:", error);
+        }
+
         const newEmail = formData.nombre.charAt(0).toLocaleLowerCase()+
                          formData.apellidoPaterno.toLocaleLowerCase()+
                          formData.apellidoMaterno.charAt(0).toLocaleLowerCase()+
+                         id+
                          "@instructor.clubleones.mx";
 
         const newContrasena = formData.nombre+(selectedDate ? selectedDate.toISOString().split("T")[0] : null)+formData.apellidoPaterno;
@@ -131,6 +156,8 @@ export default function Home(){
         telefono: formData.telefono || null,
         contrasena: quitarCaracteresEspeciales(newContrasena),
         };
+
+        console.log(instructor.contrasena);
     
         try {
             const response = await fetch("/api/signup-instructor", {
@@ -261,7 +288,7 @@ export default function Home(){
                             required
                             />
                         </Box>
-                        <Box margin={2}>
+                        <Box margin={2} className="text-center">
                             <Button
                             type="submit"
                             variant="contained"

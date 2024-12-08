@@ -28,12 +28,33 @@ const Modalidad = [
 const Costo = [
   { value: "Gratis", label: "Gratis" },
   { value: "De pago", label: "De pago" },
-]
+];
+
+interface FormData {
+  nombre: string;
+  apellidoPaterno: string;
+  apellidoMaterno: string;
+  email: string;
+  telefono: string;
+  contrasena: string;
+  genero: string;
+}
 
 export default function Home() {
     // Manejadores del tema
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)'); // Detecta el modo de sistema
     const theme = React.useMemo(() => (prefersDarkMode ? darkTheme : lightTheme), [prefersDarkMode]);
+
+    // Estados para cada campo del formulario
+    const [formData, setFormData] = React.useState<FormData>({
+      nombre: "",
+      apellidoPaterno: "",
+      apellidoMaterno: "",
+      email: "",
+      telefono: "",
+      contrasena:"",
+      genero: "",
+    });
 
     // Estados para cada fecha
     const [fechaInicioEvento, setFechaInicioEvento] = React.useState<Dayjs | null>(null);
@@ -47,6 +68,14 @@ export default function Home() {
     // Cambio del manejador de costo
     const handleCostoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setCostoSeleccionado(e.target.value);
+    };
+
+    // Nuevo manejador para el campo select
+    const handleSelectChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFormData((prevState) => ({
+      ...prevState,
+      Modalidad: e.target.value,
+      }));
     };
 
     // Manejador del botón

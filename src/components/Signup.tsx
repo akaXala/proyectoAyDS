@@ -1,4 +1,5 @@
 "use client"; // Deja usar el cliente
+
 import * as React from "react";
 
 // Componentes de MUI

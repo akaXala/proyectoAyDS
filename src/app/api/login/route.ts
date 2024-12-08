@@ -1,16 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import pool from "@/config/database"; // Conexión a PostgreSQL
+
+const SECRET_KEY = process.env.SECRET_KEY || "tu-clave-secreta";
 
 export const POST = async (req: NextRequest) => {
   try {
-    // Procesar el cuerpo de la solicitud
     const body = await req.json();
-    console.log("Datos recibidos en el servidor:", body); // Debugging
-
     const { email, contrasena } = body;
 
-    // Validar que ambos campos estén presentes
     if (!email || !contrasena) {
       return NextResponse.json(
         { success: false, error: "Correo y contraseña son obligatorios" },
@@ -18,11 +17,45 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    // Buscar el usuario en la base de datos por correo
-    const query = `SELECT contraseña FROM Competidor WHERE email = $1`;
-    const result = await pool.query(query, [email]);
+    const parts = email.split("@")[1]?.split(".");
+    const rol = parts?.[0];
 
-    // Verificar si el usuario existe
+    if (!rol) {
+      return NextResponse.json(
+        { success: false, error: "Formato de correo inválido" },
+        { status: 400 }
+      );
+    }
+
+    let query = "";
+    let idColumn = "";
+
+    // Ajustar consulta y columna `id` según el rol
+    if (rol === "instructor") {
+      query = `SELECT id_instructor AS id, contraseña FROM instructor WHERE email = $1`;
+      idColumn = "id_instructor";
+    } else if (rol === "organizador") {
+      query = `SELECT id_organizador AS id, contraseña FROM organizador WHERE email = $1`;
+      idColumn = "id_organizador";
+    } else if (rol === "administrador") {
+      query = `SELECT id_administrador AS id, contraseña FROM administrador WHERE email = $1`;
+      idColumn = "id_administrador";
+    } else {
+      query = `SELECT id_competidor AS id, contraseña FROM competidor WHERE email = $1`;
+      idColumn = "id_competidor";
+    }
+
+    let result;
+    try {
+      result = await pool.query(query, [email]);
+    } catch (dbError) {
+      console.error("Error en la consulta de la base de datos:", dbError);
+      return NextResponse.json(
+        { success: false, error: "Error al consultar la base de datos" },
+        { status: 500 }
+      );
+    }
+
     if (result.rows.length === 0) {
       return NextResponse.json(
         { success: false, error: "Correo no registrado" },
@@ -30,11 +63,9 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    const hashedPassword = result.rows[0].contraseña;
+    const { id, contraseña: hashedPassword } = result.rows[0];
 
-    // Comparar la contraseña ingresada con la almacenada
     const isPasswordValid = await bcrypt.compare(contrasena, hashedPassword);
-
     if (!isPasswordValid) {
       return NextResponse.json(
         { success: false, error: "Contraseña incorrecta" },
@@ -42,11 +73,44 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    // Respuesta exitosa
-    return NextResponse.json(
-      { success: true, message: "Sesión iniciada correctamente" },
-      { status: 200 }
-    );
+    console.log("Generando token con:", { id, email, rol });
+
+    let token;
+    try {
+      token = jwt.sign({ id, email, rol }, SECRET_KEY, { expiresIn: "1h" });
+    } catch (error) {
+      console.error("Error al generar el token:", error);
+      return NextResponse.json(
+        { success: false, error: "Error al generar el token" },
+        { status: 500 }
+      );
+    }
+
+    // Determinar la URL de redirección según el rol
+    const redirectUrl =
+      rol === "instructor"
+        ? "/instructor"
+        : rol === "organizador"
+        ? "/organizador"
+        : rol === "administrador"
+        ? "/administrador"
+        : "/competidor";
+
+    const response = NextResponse.json({
+      success: true,
+      message: "Sesión iniciada correctamente",
+      redirectUrl, // URL de redirección basada en el rol
+    });
+
+    response.cookies.set("auth", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 3600,
+      path: "/",
+    });
+
+    return response;
   } catch (error) {
     console.error("Error en el inicio de sesión:", error);
     return NextResponse.json(

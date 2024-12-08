@@ -1,18 +1,16 @@
 "use client";
+
 import * as React from "react";
 import { Box, TextField, Button } from "@mui/material";
 
 const Login: React.FC = () => {
-  // Estado para los datos del formulario
   const [formData, setFormData] = React.useState({
     email: "",
     contrasena: "",
   });
 
-  // Estado para manejar errores
   const [error, setError] = React.useState<string | null>(null);
 
-  // Manejador para capturar los datos de los campos
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormData((prev) => ({
@@ -21,7 +19,6 @@ const Login: React.FC = () => {
     }));
   };
 
-  // Manejador para enviar el formulario
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null); // Reinicia el error
@@ -33,13 +30,13 @@ const Login: React.FC = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData), // Convierte el objeto a JSON
+        body: JSON.stringify(formData),
       });
 
       const data = await response.json();
-
+      
       if (response.ok && data.success) {
-        alert("Sesión iniciada correctamente");
+        window.location.href = data.redirectUrl; // Redirige al dashboard del rol correspondiente
       } else {
         setError(data.error || "Error desconocido");
       }
