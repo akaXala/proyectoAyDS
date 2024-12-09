@@ -5,7 +5,7 @@ const SECRET_KEY = new TextEncoder().encode(process.env.SECRET_KEY || "tu-clave-
 
 // Rutas protegidas por rol
 const roleBasedRoutes: Record<string, string[]> = {
-  administrador: ["/administrador", "/eventos"],
+  administrador: ["/administrador", "/registro"],
   instructor: ["/instructor"],
   organizador: ["/organizador", "/eventos"],
   competidor: ["/competidor"],
@@ -60,5 +60,5 @@ export async function middleware(req: NextRequest) {
 
 // Configuración del middleware para todas las rutas
 export const config = {
-  matcher: ["/", "/administrador/:path*", "/instructor/:path*", "/organizador/:path*", "/competidor/:path*", "/eventos/:path*"],
+  matcher: ["/", "/administrador/:path*", "/instructor/:path*", "/organizador/:path*", "/competidor/:path*", "/eventos/:path*", "/registro/:path*"],
 };

@@ -72,8 +72,6 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    console.log("Generando token con:", { id, email, rol });
-
     let token;
     try {
       token = jwt.sign({ id, email, rol }, SECRET_KEY, { expiresIn: "1h" });

@@ -14,6 +14,9 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs, { Dayjs } from "dayjs";
 import { ThemeProvider } from '@emotion/react';
 
+// Objeto evento
+import { Evento } from '@/ts/schemas/Evento';
+
 // Alertas de SweetAlert
 import { mostrarAlerta } from '@/components/sweetAlert/ModalAlerts';
 
@@ -31,13 +34,14 @@ const Costo = [
 ];
 
 interface FormData {
-  nombre: string;
-  apellidoPaterno: string;
-  apellidoMaterno: string;
-  email: string;
-  telefono: string;
-  contrasena: string;
-  genero: string;
+  nombre_evento: string;
+  tipo_evento: string;
+  capacidad: number;
+  modalidad: string;
+  costo: number;
+  requisitos: string;
+  reglas: string;
+  descripcion: string;
 }
 
 export default function Home() {
@@ -47,13 +51,14 @@ export default function Home() {
 
     // Estados para cada campo del formulario
     const [formData, setFormData] = React.useState<FormData>({
-      nombre: "",
-      apellidoPaterno: "",
-      apellidoMaterno: "",
-      email: "",
-      telefono: "",
-      contrasena:"",
-      genero: "",
+      nombre_evento: "",
+      tipo_evento: "",
+      capacidad: 0,
+      modalidad: "",
+      costo: 0,
+      requisitos: "",
+      reglas: "",
+      descripcion: "",
     });
 
     // Estados para cada fecha
@@ -67,21 +72,27 @@ export default function Home() {
     
     // Cambio del manejador de costo
     const handleCostoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setCostoSeleccionado(e.target.value);
+      const selectedValue = e.target.value;
+      setCostoSeleccionado(selectedValue);
+      setFormData((prevState) => ({
+        ...prevState,
+        costo: selectedValue === "De pago" ? 0 : 0, // Ajusta el costo según la selección
+      }));
     };
 
     // Nuevo manejador para el campo select
     const handleSelectChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setFormData((prevState) => ({
       ...prevState,
-      Modalidad: e.target.value,
+      modalidad: e.target.value,
       }));
     };
 
     // Manejador del botón
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        mostrarAlerta('Operación fallida', 'Ha ocurrido un error al registrar el evento', 'Volver al menú', 'error');
+        console.log(formData);
+        //mostrarAlerta('Operación fallida', 'Ha ocurrido un error al registrar el evento', 'Volver al menú', 'error');
     };
 
     return (
@@ -220,6 +231,8 @@ export default function Home() {
                                     id="modalidad"
                                     select
                                     label="Modalidad del evento"
+                                    value={formData.modalidad}
+                                    onChange={handleSelectChange}
                                     size="small"
                                     className='text-field'
                                     required
@@ -239,6 +252,7 @@ export default function Home() {
                                       size="small"
                                       className='text-field'
                                       required
+                                      value={costoSeleccionado} // Mantiene el valor seleccionado
                                       onChange={handleCostoChange}  // Manejador de cambio
                                   >
                                     {Costo.map((option) => (
@@ -257,6 +271,8 @@ export default function Home() {
                                 className="text-field"
                                 required
                                 disabled={costoSeleccionado !== "De pago"}  // Deshabilita si el evento es gratis
+                                value={formData.costo} // Controlado por formData
+                                onChange={(e) => setFormData({ ...formData, costo: Number(e.target.value) })} // Actualiza el costo
                               />
                             </Grid2>
                             <Grid2 size={{ xs: 12, sm: 6 }}>
