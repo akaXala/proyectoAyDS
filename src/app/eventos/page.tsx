@@ -20,7 +20,7 @@ export default function Home() {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline>
-                <Typography>Competidor</Typography>
+                <Typography>Eventos</Typography>
             </CssBaseline>
         </ThemeProvider>
     );

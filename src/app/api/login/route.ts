@@ -17,14 +17,13 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    const parts = email.split("@")[1]?.split(".");
-    const rol = parts?.[0];
+    // Obtener el rol del dominio del correo
+    const domain = email.split("@")[1]?.split(".")[0]; // Obtener el dominio del correo
+    let rol = domain;
 
-    if (!rol) {
-      return NextResponse.json(
-        { success: false, error: "Formato de correo inválido" },
-        { status: 400 }
-      );
+    // Asignar el rol como "competidor" si no coincide con los roles conocidos
+    if (!["instructor", "organizador", "administrador"].includes(rol)) {
+      rol = "competidor";
     }
 
     let query = "";

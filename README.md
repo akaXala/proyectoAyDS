@@ -73,6 +73,7 @@ Estas son las librerias ocupadas por el proyecto
               <li>bcrypt</li>
               <li>pg-to-ts</li>
               <li>jsonwebtoken</li>
+              <li>jose</li>
        </ul>
 </ul>
 

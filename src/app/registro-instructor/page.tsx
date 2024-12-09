@@ -130,7 +130,6 @@ export default function Home(){
             if (data.success) {
               const count = data.count; // Extraer el conteo del JSON
               id = count + 1;
-              console.log("Número de usuarios:", count); // Imprimir en consola
             } else {
               console.error("Error del servidor:", data.error);
             }
@@ -156,8 +155,6 @@ export default function Home(){
         telefono: formData.telefono || null,
         contrasena: quitarCaracteresEspeciales(newContrasena),
         };
-
-        console.log(instructor.contrasena);
     
         try {
             const response = await fetch("/api/signup-instructor", {

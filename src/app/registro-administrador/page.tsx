@@ -117,7 +117,7 @@ export default function Home(){
         let id = 0;
 
         try {
-            const response = await fetch("/api/count-organizador", {
+            const response = await fetch("/api/count-administrador", {
               method: "GET",
             });
       
@@ -141,7 +141,7 @@ export default function Home(){
                          formData.apellidoPaterno.toLocaleLowerCase()+
                          formData.apellidoMaterno.charAt(0).toLocaleLowerCase()+
                          id+
-                         "@organizador.clubleones.mx";
+                         "@administrador.clubleones.mx";
 
         const newContrasena = formData.nombre+(selectedDate ? selectedDate.toISOString().split("T")[0] : null)+formData.apellidoPaterno;
     
@@ -157,7 +157,7 @@ export default function Home(){
         };
     
         try {
-            const response = await fetch("/api/signup-organizador", {
+            const response = await fetch("/api/signup-administrador", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -174,7 +174,7 @@ export default function Home(){
             const data = await response.json();
         
             if (data.success) {
-                alert("¡Organizador registrado exitosamente!");
+                alert("¡Instructor registrado exitosamente!");
                 // Limpia el formulario o redirige al usuario
             } else {
                 alert(`Error al registrar: ${data.error}`);
@@ -190,7 +190,7 @@ export default function Home(){
             <CssBaseline>
                 <Grid2 container spacing={2} alignItems="center" justifyContent="center" margin={1} marginTop={2}>
                     <Typography variant='h3' className='text-center'>
-                        Registro organizador
+                        Registro administrador
                     </Typography>
                 </Grid2>
                 <Grid2 container spacing={2} alignItems="center" justifyContent="center" margin={1} marginTop={2}>
@@ -291,7 +291,7 @@ export default function Home(){
                             variant="contained"
                             className="button px-4 py-2 rounded"
                             >
-                            Registrar organizador
+                            Registrar administrador
                             </Button>
                         </Box>
                     </form>
