@@ -14,9 +14,6 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs, { Dayjs } from "dayjs";
 import { ThemeProvider } from '@emotion/react';
 
-// Objeto evento
-import { Evento } from '@/ts/schemas/Evento';
-
 // Alertas de SweetAlert
 import { mostrarAlerta } from '@/components/sweetAlert/ModalAlerts';
 
@@ -53,7 +50,7 @@ export default function Home() {
     const [formData, setFormData] = React.useState<FormData>({
       nombre_evento: "",
       tipo_evento: "",
-      capacidad: 0,
+      capacidad: 1,
       modalidad: "",
       costo: 0,
       requisitos: "",
@@ -69,6 +66,22 @@ export default function Home() {
 
     // Manejador de costo
     const [costoSeleccionado, setCostoSeleccionado] = React.useState<string>(""); // Estado para el costo seleccionado
+
+    // Estado para controlar si el formulario ha sido enviado
+    const [formSubmitted, setFormSubmitted] = React.useState(false);
+
+    // Estados para las horas
+    const [horaInicio, setHoraInicio] = React.useState<Dayjs | null>(null); // Estado para la hora de inicio
+    const [horaFin, setHoraFin] = React.useState<Dayjs | null>(null); // Estado para la hora de fin
+
+    // Manejador para campos de texto normales
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { id, value } = e.target;
+      setFormData((prevState) => ({
+        ...prevState,
+        [id]: value,
+      }));
+    };
     
     // Cambio del manejador de costo
     const handleCostoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,10 +102,99 @@ export default function Home() {
     };
 
     // Manejador del botón
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log(formData);
-        //mostrarAlerta('Operación fallida', 'Ha ocurrido un error al registrar el evento', 'Volver al menú', 'error');
+
+        setFormSubmitted(true);
+
+        // Verificación de que la fecha de fin de inscripciones no sea anterior a la fecha de inicio de inscripciones
+        if (fechaInicioInscripcion && fechaFinInscripcion && fechaFinInscripcion.isBefore(fechaInicioInscripcion)) {
+          mostrarAlerta("Error", "La fecha de fin de inscripciones no puede ser anterior a la fecha de inicio de inscripciones", "Aceptar", "error");
+          return;
+        }
+        
+        // Verificación de que la fecha de fin no sea anterior a la fecha de inicio
+        if (fechaInicioEvento && fechaFinEvento && fechaFinEvento.isBefore(fechaInicioEvento)) {
+          mostrarAlerta("Error", "La fecha de fin del evento no puede ser anterior a la fecha de inicio del evento", "Aceptar", "error");
+          return;
+        }
+
+        // Verificación de que la fecha de inicio de inscripciones no sea posterior a la fecha de inicio del evento
+        if (fechaInicioInscripcion && fechaInicioEvento && fechaInicioInscripcion.isAfter(fechaInicioEvento)) {
+          mostrarAlerta("Error", "La fecha de inicio de inscripciones no puede ser posterior a la fecha de inicio del evento", "Aceptar", "error");
+          return;
+        }
+
+        // Verificación de que la hora de fin no sea anterior a la hora de inicio si es el mismo día
+        if (horaInicio && horaFin && fechaInicioEvento && fechaFinEvento && fechaInicioEvento.isSame(fechaFinEvento, 'day') && horaFin.isBefore(horaInicio)) {
+          mostrarAlerta("Error", "La hora de fin no puede ser anterior a la hora de inicio en el mismo día", "Aceptar", "error");
+          return;
+      }
+
+        // Convertimos las fechas a un formato de yyyy-mm-dd
+        let fechaIniIns = fechaInicioInscripcion ? fechaInicioInscripcion.toISOString().split("T")[0] : null;
+        let fechaFinIns = fechaFinEvento ? fechaFinEvento.toISOString().split("T")[0] : null;
+
+        // Comporbamos que las fechas de inscripción no sean las mismas
+        if (fechaIniIns === fechaFinIns){
+          mostrarAlerta("Error", "La fecha de inicio y cierre de inscripciones es la misma", "Aceptar", "error");
+          return;
+        }
+
+        // Convertimos las horas a un formato de hh:mm:ss
+        let horaI = horaInicio ? horaInicio.format("HH:mm:ss") : null;
+        let horaF = horaFin ? horaFin.format("HH:mm:ss") : null;
+
+        // Comprobamos que las horas de inicio y fin no sean las mismas
+        if (horaI === horaF){
+          mostrarAlerta("Error", "La hora de inicio y fin de evento es la misma", "Aceptar", "error");
+          return;
+        }
+
+        let hora = (horaI ?? "00:00:00") + " - " + (horaF ?? "00:00:00");
+        
+        const evento = {
+          nombre_evento: formData.nombre_evento,
+          tipo_evento: formData.tipo_evento,
+          capacidad: formData.capacidad,
+          fechaInicioInscripcion: fechaIniIns,
+          fechaFinInscripcion: fechaFinIns,
+          fechaInicioEvento: fechaInicioEvento ? fechaInicioEvento.toISOString().split("T")[0]: null,
+          fechaFinEvento: fechaFinEvento ? fechaFinEvento.toISOString().split("T")[0] : null,
+          horarios: hora,
+          modalidad: formData.modalidad,
+          costo: formData.costo,
+          requisitos: formData.requisitos,
+          reglas: formData.reglas,
+          descripcion: formData.descripcion, 
+        }
+
+        try {
+          const response = await fetch("/api/registrar-evento-nuevo", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(evento),
+          });
+
+          if(!response.ok){
+            const errorData = await response.json();
+            mostrarAlerta("Error al registrar", `${errorData.error}`, "Aceptar", "error");
+            return;
+          }
+
+          const data = await response.json();
+
+          if(data.success){
+            mostrarAlerta("¡Evento registrado correctamente!", "El evento ha sido registrado", "Aceptar", "success");
+          } else {
+            mostrarAlerta("Error al registrar", `${data.error}`, "Aceptar", "error");
+          }
+        } catch (error) {
+          console.error("Error al registrar:", error);
+          mostrarAlerta("Hubo un problema con el registro", "Inténtalo de nuevo", "Aceptar", "error");
+        }
     };
 
     return (
@@ -108,28 +210,33 @@ export default function Home() {
                         <Grid2 container spacing={2} marginTop={2}>
                             <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                                 <TextField
-                                    id="nombreEvento"
+                                    id="nombre_evento"
                                     label="Nombre del evento"
                                     size="small"
+                                    value={formData.nombre_evento}
+                                    onChange={handleInputChange}
                                     className='text-field'
                                     required
                                 />
                             </Grid2>
                             <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                                 <TextField
-                                    id="tipoEvento"
+                                    id="tipo_evento"
                                     label="Tipo del evento"
                                     size="small"
+                                    value={formData.tipo_evento}
+                                    onChange={handleInputChange}
                                     className='text-field'
                                     required
                                 />
                             </Grid2>
                             <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                                 <TextField
-                                    id="capacidadEvento"
+                                    id="capacidad"
                                     label="Capacidad del evento"
                                     type='number'
                                     size="small"
+                                    onChange={handleInputChange}
                                     className='text-field'
                                     required
                                 />
@@ -202,6 +309,8 @@ export default function Home() {
                               <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <TimePicker
                                   label="Horario de inicio"
+                                  value={horaInicio} // Vincula el valor al estado
+                                  onChange={(newTime) => setHoraInicio(newTime)} // Actualiza el estado
                                   className='text-field'
                                   slotProps={{
                                     textField: {
@@ -215,7 +324,9 @@ export default function Home() {
                             <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                               <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <TimePicker
-                                  label="Horario de termino"
+                                  label="Horario de término"
+                                  value={horaFin} // Vincula el valor al estado
+                                  onChange={(newTime) => setHoraFin(newTime)} // Actualiza el estado
                                   className='text-field'
                                   slotProps={{
                                     textField: {
@@ -281,6 +392,8 @@ export default function Home() {
                                 label="Requisitos"
                                 variant="outlined"
                                 size="small"
+                                value={formData.requisitos}
+                                onChange={handleInputChange}
                                 className= "text-field"
                                 multiline
                                 rows={3}
@@ -293,6 +406,8 @@ export default function Home() {
                                 label="Reglas"
                                 variant="outlined"
                                 size="small"
+                                value={formData.reglas}
+                                onChange={handleInputChange}
                                 className="text-field"
                                 multiline
                                 rows={3}
@@ -305,6 +420,8 @@ export default function Home() {
                                 label="Descripción del evento"
                                 variant="outlined"
                                 size="small"
+                                value={formData.descripcion}
+                                onChange={handleInputChange}
                                 className="text-field"
                                 multiline
                                 rows={5}

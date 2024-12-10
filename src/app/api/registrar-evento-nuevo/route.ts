@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import bcrypt from "bcrypt";
 import pool from "@/config/database"; // Tu conexión a PostgreSQL
 
 export const POST = async (req: NextRequest) => {
@@ -7,58 +6,69 @@ export const POST = async (req: NextRequest) => {
     const body = await req.json(); // Obtén los datos del cuerpo de la solicitud
 
     const {
-      nombre,
-      apellidoPaterno,
-      apellidoMaterno,
-      fechaNacimiento,
-      genero,
-      email,
-      telefono,
-      contrasena,
+      nombre_evento,
+      tipo_evento,
+      capacidad,
+      fechaInicioInscripcion,
+      fechaFinInscripcion,
+      fechaInicioEvento,
+      fechaFinEvento,
+      horarios,
+      modalidad,
+      costo,
+      requisitos,
+      reglas,
+      descripcion, 
     } = body;
 
     // Valida campos requeridos
-    if (!nombre || !apellidoPaterno || !email || !contrasena) {
+    if (!nombre_evento || !tipo_evento || !capacidad || !fechaInicioInscripcion || !fechaFinInscripcion || !fechaInicioEvento || !fechaFinEvento || !horarios || !modalidad || !requisitos || !reglas || !descripcion) {
       return NextResponse.json(
         { success: false, error: "Faltan campos obligatorios" },
         { status: 400 }
       );
     }
 
-    // Hashea la contraseña
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(contrasena, saltRounds);
-
     // Inserta datos en la base de datos
     const query = `
-      INSERT INTO competidor (
-        nombre,
-        apellido_paterno,
-        apellido_materno,
-        fecha_nacimiento,
-        genero,
-        email,
-        telefono,
-        contraseña
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-      RETURNING id_competidor;
+      INSERT INTO evento (
+        nombre_evento,
+        tipo_evento,
+        capacidad,
+        fecha_inicio_inscripcion,
+        fecha_fin_inscripcion,
+        fecha_inicio,
+        fecha_fin,
+        horarios,
+        modalidad,
+        costo,
+        requisitos,
+        reglas,
+        descripcion
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+      RETURNING id_evento;
     `;
 
     const values = [
-      nombre,
-      apellidoPaterno,
-      apellidoMaterno || null,
-      fechaNacimiento || null,
-      genero || null,
-      email,
-      telefono || null,
-      hashedPassword,
+      nombre_evento,
+      tipo_evento,
+      capacidad,
+      fechaInicioInscripcion,
+      fechaFinInscripcion,
+      fechaInicioEvento,
+      fechaFinEvento,
+      horarios,
+      modalidad,
+      costo,
+      requisitos,
+      reglas,
+      descripcion,
     ];
 
     const result = await pool.query(query, values);
 
     return NextResponse.json(
-      { success: true, id: result.rows[0].id_competidor },
+      { success: true, id: result.rows[0].id_evento },
       { status: 201 }
     );
   } catch (error) {
