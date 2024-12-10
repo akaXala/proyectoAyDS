@@ -64,15 +64,15 @@ const TabsComponent: React.FC = () => {
           aria-label="auth tabs"
           centered
         >
-          <Tab label="Registrate" {...a11yProps(0)} />
-          <Tab label="Acceder" {...a11yProps(1)} />
+          <Tab label="Acceder" {...a11yProps(0)} />
+          <Tab label="Registrarse" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Signup />
+        <Login />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Login />
+        <Signup />
       </TabPanel>
     </Box>
   );
