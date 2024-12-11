@@ -1,6 +1,9 @@
 "use client"; // Deja usar el cliente
 import * as React from 'react';
 
+// Funcionalidades Next.js
+import { useRouter } from "next/navigation";
+
 // Componentes de MUI
 import { Typography, useMediaQuery, CssBaseline, Button } from '@mui/material'
 
@@ -20,10 +23,22 @@ export default function Home() {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)'); // Detecta el modo de sistema
     const theme = React.useMemo(() => (prefersDarkMode ? darkTheme : lightTheme), [prefersDarkMode]);
 
+    const router = useRouter();
+
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline>
                 <Typography>Organizador</Typography>
+                <Button 
+                  onClick={() => {
+                    router.push('/eventos'); // Navega a modificar
+                  }}
+                  variant="contained"
+                  className="button"
+                >
+                  Eventos
+                </Button>
+                <br/>
                 <Logout />
             </CssBaseline>
         </ThemeProvider>

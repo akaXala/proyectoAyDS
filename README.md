@@ -74,6 +74,7 @@ Estas son las librerias ocupadas por el proyecto
               <li>pg-to-ts</li>
               <li>jsonwebtoken</li>
               <li>jose</li>
+              <li>date-fns</li>
        </ul>
 </ul>
 

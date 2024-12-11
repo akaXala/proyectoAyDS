@@ -13,16 +13,18 @@ export const POST = async (req: NextRequest) => {
       fechaFinInscripcion,
       fechaInicioEvento,
       fechaFinEvento,
-      horarios,
+      horaInicio,
+      horaFin,
       modalidad,
       costo,
       requisitos,
       reglas,
-      descripcion, 
+      descripcion,
+      imagen,
     } = body;
 
     // Valida campos requeridos
-    if (!nombre_evento || !tipo_evento || !capacidad || !fechaInicioInscripcion || !fechaFinInscripcion || !fechaInicioEvento || !fechaFinEvento || !horarios || !modalidad || !requisitos || !reglas || !descripcion) {
+    if (!nombre_evento || !tipo_evento || !capacidad || !fechaInicioInscripcion || !fechaFinInscripcion || !fechaInicioEvento || !fechaFinEvento || !horaInicio || !horaFin || !modalidad || !requisitos || !reglas || !descripcion || !imagen) {
       return NextResponse.json(
         { success: false, error: "Faltan campos obligatorios" },
         { status: 400 }
@@ -39,13 +41,15 @@ export const POST = async (req: NextRequest) => {
         fecha_fin_inscripcion,
         fecha_inicio,
         fecha_fin,
-        horarios,
+        hora_inicio,
+        hora_fin,
         modalidad,
         costo,
         requisitos,
         reglas,
-        descripcion
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+        descripcion,
+        imagen
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
       RETURNING id_evento;
     `;
 
@@ -57,12 +61,14 @@ export const POST = async (req: NextRequest) => {
       fechaFinInscripcion,
       fechaInicioEvento,
       fechaFinEvento,
-      horarios,
+      horaInicio,
+      horaFin,
       modalidad,
       costo,
       requisitos,
       reglas,
       descripcion,
+      imagen,
     ];
 
     const result = await pool.query(query, values);

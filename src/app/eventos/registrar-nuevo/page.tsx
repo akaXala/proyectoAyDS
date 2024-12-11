@@ -39,6 +39,7 @@ interface FormData {
   requisitos: string;
   reglas: string;
   descripcion: string;
+  imagen: string;
 }
 
 export default function Home() {
@@ -56,6 +57,7 @@ export default function Home() {
       requisitos: "",
       reglas: "",
       descripcion: "",
+      imagen: "",
     });
 
     // Estados para cada fecha
@@ -129,7 +131,7 @@ export default function Home() {
         if (horaInicio && horaFin && fechaInicioEvento && fechaFinEvento && fechaInicioEvento.isSame(fechaFinEvento, 'day') && horaFin.isBefore(horaInicio)) {
           mostrarAlerta("Error", "La hora de fin no puede ser anterior a la hora de inicio en el mismo día", "Aceptar", "error");
           return;
-      }
+        }
 
         // Convertimos las fechas a un formato de yyyy-mm-dd
         let fechaIniIns = fechaInicioInscripcion ? fechaInicioInscripcion.toISOString().split("T")[0] : null;
@@ -150,8 +152,6 @@ export default function Home() {
           mostrarAlerta("Error", "La hora de inicio y fin de evento es la misma", "Aceptar", "error");
           return;
         }
-
-        let hora = (horaI ?? "00:00:00") + " - " + (horaF ?? "00:00:00");
         
         const evento = {
           nombre_evento: formData.nombre_evento,
@@ -161,12 +161,14 @@ export default function Home() {
           fechaFinInscripcion: fechaFinIns,
           fechaInicioEvento: fechaInicioEvento ? fechaInicioEvento.toISOString().split("T")[0]: null,
           fechaFinEvento: fechaFinEvento ? fechaFinEvento.toISOString().split("T")[0] : null,
-          horarios: hora,
+          horaInicio: horaI,
+          horaFin: horaF,
           modalidad: formData.modalidad,
           costo: formData.costo,
           requisitos: formData.requisitos,
           reglas: formData.reglas,
-          descripcion: formData.descripcion, 
+          descripcion: formData.descripcion,
+          imagen: formData.imagen,
         }
 
         try {
@@ -425,6 +427,18 @@ export default function Home() {
                                 className="text-field"
                                 multiline
                                 rows={5}
+                                required
+                              />
+                            </Grid2>
+                            <Grid2 size={12}>
+                              <TextField
+                                id="imagen"
+                                label="Imagen del evento"
+                                variant="outlined"
+                                size="small"
+                                value={formData.imagen}
+                                onChange={handleInputChange}
+                                className="text-field"
                                 required
                               />
                             </Grid2>
