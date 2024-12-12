@@ -70,11 +70,12 @@ Estas son las librerias ocupadas por el proyecto
        </ul>
        <li>Funcionalidades</li>
        <ul>
-              <li>bcrypt</li>
-              <li>pg-to-ts</li>
-              <li>jsonwebtoken</li>
-              <li>jose</li>
-              <li>date-fns</li>
+              <li>bcrypt (encriptación de contraseñas)</li>
+              <li>pg-to-ts (exportación de tablas SQL a objetos TS)</li>
+              <li>jsonwebtoken (tokens de sesiones para página web)</li>
+              <li>jose (tokens de sesiones para cualquier naveador)</li>
+              <li>date-fns (estandarización de la fecha)</li>
+              <li>moment (obtiene fechas actuales)</li>
        </ul>
 </ul>
 

@@ -1,6 +1,9 @@
 "use client"; // Deja usar el cliente
 import * as React from 'react';
 
+// Funcionalidades Next.js
+import { useRouter } from "next/navigation";
+
 // Componentes de MUI
 import { Typography, useMediaQuery, CssBaseline, Button } from '@mui/material'
 

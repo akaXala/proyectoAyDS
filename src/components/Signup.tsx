@@ -89,6 +89,16 @@ const Signup: React.FC = () => {
       }
     });
 
+    // Nueva validación de edad
+    if (selectedDate) {
+      const today = dayjs();
+      const age = today.diff(selectedDate, 'year');
+      
+      if (age < 13) {
+        newErrors['fechaNacimiento'] = 'Debes tener al menos 13 años para registrarte';
+      }
+    }
+
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0; // Retorna true si no hay errores
@@ -138,7 +148,7 @@ const Signup: React.FC = () => {
       const data = await response.json();
   
       if (data.success) {
-        mostrarAlerta("¡Instructor registrado exitosamente!", "Ahora puedes ingresar", "Aceptar", "success");
+        mostrarAlerta("¡Te has registrado exitosamente!", "Ahora puedes ingresar", "Aceptar", "success");
         // Limpia el formulario o redirige al usuario
       } else {
         mostrarAlerta("Error al registrar", `${data.error}`, "Aceptar", "error");
@@ -204,6 +214,8 @@ const Signup: React.FC = () => {
               textField: {
                 size: "small",
                 required: true,
+                error: formSubmitted && !!errors.fechaNacimiento,
+                helperText: formSubmitted ? errors.fechaNacimiento : "",
               },
             }}
           />

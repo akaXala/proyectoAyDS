@@ -177,7 +177,7 @@ export default function Home(){
             const data = await response.json();
         
             if (data.success) {
-                mostrarAlerta("¡Instructor registrado exitosamente!", `"Correo: ${newEmail}"`, "Aceptar", "success");
+                mostrarAlerta("¡Administador registrado exitosamente!", `"Correo: ${newEmail}"`, "Aceptar", "success");
             } else {
                 mostrarAlerta("Error al registrar", `${data.error}`, "Aceptar", "error");
             }

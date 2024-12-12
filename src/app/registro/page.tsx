@@ -28,18 +28,37 @@ export default function Home() {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline>
-                <Typography>Admin</Typography>
+                <Typography>Registrar</Typography>
                 <Button 
                   onClick={() => {
-                    router.push('/registro'); // Navega a registro
+                    router.push('/registro/administrador');
                   }}
                   variant="contained"
                   className="button"
                 >
-                  Registros
+                    Administrador
                 </Button>
                 <br/>
-                <Logout />
+                <Button 
+                  onClick={() => {
+                    router.push('/registro/organizador');
+                  }}
+                  variant="contained"
+                  className="button"
+                >
+                    Organizador
+                </Button>
+                <br/>
+                <Button 
+                  onClick={() => {
+                    router.push('/registro/instructor');
+                  }}
+                  variant="contained"
+                  className="button"
+                >
+                    Instructor
+                </Button>
+                <br/>
             </CssBaseline>
         </ThemeProvider>
     );

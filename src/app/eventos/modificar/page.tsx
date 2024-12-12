@@ -292,6 +292,38 @@ export default function Home() {
                                     className='text-field'
                                     required
                                 />
+                            </Grid2>                            
+                            <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DatePicker
+                                        label="Fecha inicio inscripción"
+                                        value={fechaInicioInscripcion}
+                                        onChange={(newDate) => setFechaInicioInscripcion(newDate)}
+                                        className="text-field"
+                                        slotProps={{
+                                        textField: {
+                                            size: "small",
+                                            required: true,
+                                        },
+                                        }}
+                                    />
+                                </LocalizationProvider>
+                            </Grid2>
+                            <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker
+                                    label="Fecha fin inscripción"
+                                    value={fechaFinInscripcion}
+                                    onChange={(newDate) => setFechaFinInscripcion(newDate)}
+                                    className="text-field"
+                                    slotProps={{
+                                      textField: {
+                                          size: "small",
+                                          required: true,
+                                      },
+                                    }}
+                                />
+                              </LocalizationProvider>
                             </Grid2>
                             <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -324,38 +356,6 @@ export default function Home() {
                                         }}
                                     />
                                 </LocalizationProvider>
-                            </Grid2>
-                            <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DatePicker
-                                        label="Fecha inicio inscripción"
-                                        value={fechaInicioInscripcion}
-                                        onChange={(newDate) => setFechaInicioInscripcion(newDate)}
-                                        className="text-field"
-                                        slotProps={{
-                                        textField: {
-                                            size: "small",
-                                            required: true,
-                                        },
-                                        }}
-                                    />
-                                </LocalizationProvider>
-                            </Grid2>
-                            <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-                              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker
-                                    label="Fecha fin inscripción"
-                                    value={fechaFinInscripcion}
-                                    onChange={(newDate) => setFechaFinInscripcion(newDate)}
-                                    className="text-field"
-                                    slotProps={{
-                                      textField: {
-                                          size: "small",
-                                          required: true,
-                                      },
-                                    }}
-                                />
-                              </LocalizationProvider>
                             </Grid2>
                             <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                               <LocalizationProvider dateAdapter={AdapterDayjs}>

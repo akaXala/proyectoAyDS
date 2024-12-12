@@ -102,9 +102,9 @@ export default function Home() {
         </Grid2>
       </Grid2>
       <Grid2 container spacing={5} alignItems="center" justifyContent="center" className="text-center" marginX={1}>
-        <Grid2 container spacing={2} marginTop={2} className="text-center">
+        <Grid2 container spacing={2} marginTop={2} justifyContent="center" className="text-center">
           {eventos.map((evento) => (
-            <Grid2 size={{ xs: 12, sm: 6 }} key={evento.getIdEvento}>
+            <Grid2 size={{ xs: 12, sm: 6 }} key={evento.getIdEvento} display="flex" justifyContent="center">
               <MediaControlCard
                 titulo={evento.getNombreEvento}
                 fechaEvento={evento.getFechaInicio + " - " + evento.getFechaFin}
@@ -187,7 +187,13 @@ export default function Home() {
                   <strong>Fecha de inicio del evento:</strong> {eventoSeleccionado.getFechaInicio}
                 </Typography>
                 <Typography>
+                  <strong>Fecha de fin del evento:</strong> {eventoSeleccionado.getFechaFin}
+                </Typography>
+                <Typography>
                   <strong>Hora de inicio:</strong> {eventoSeleccionado.getHoraInicio || "No especificada"}
+                </Typography>
+                <Typography>
+                  <strong>Hora de fin:</strong> {eventoSeleccionado.getHoraFin || "No especificada"}
                 </Typography>
                 <Typography>
                   <strong>Modalidad:</strong> {eventoSeleccionado.getModalidad || "No especificada"}

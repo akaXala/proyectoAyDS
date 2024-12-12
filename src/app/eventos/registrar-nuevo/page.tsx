@@ -109,6 +109,14 @@ export default function Home() {
 
         setFormSubmitted(true);
 
+        const fechaActual = dayjs();
+
+        // Verifica que las fechas no sean anteriores a la actual
+        if (fechaInicioInscripcion && fechaInicioInscripcion.isBefore(fechaActual)){
+          mostrarAlerta("Error", "La fecha de inicio de inscripciones es anterior a la fecha actual", "Aceptar", "error");
+          return;
+        }
+
         // Verificación de que la fecha de fin de inscripciones no sea anterior a la fecha de inicio de inscripciones
         if (fechaInicioInscripcion && fechaFinInscripcion && fechaFinInscripcion.isBefore(fechaInicioInscripcion)) {
           mostrarAlerta("Error", "La fecha de fin de inscripciones no puede ser anterior a la fecha de inicio de inscripciones", "Aceptar", "error");
@@ -245,38 +253,6 @@ export default function Home() {
                             </Grid2>
                             <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker
-                                    label="Fecha inicio evento"
-                                    value={fechaInicioEvento}
-                                    onChange={(newDate) => setFechaInicioEvento(newDate)}
-                                    className="text-field"
-                                    slotProps={{
-                                    textField: {
-                                        size: "small",
-                                        required: true,
-                                    },
-                                    }}
-                                />
-                                </LocalizationProvider>
-                            </Grid2>
-                            <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DatePicker
-                                        label="Fecha fin evento"
-                                        value={fechaFinEvento}
-                                        onChange={(newDate) => setFechaFinEvento(newDate)}
-                                        className="text-field"
-                                        slotProps={{
-                                        textField: {
-                                            size: "small",
-                                            required: true,
-                                        },
-                                        }}
-                                    />
-                                </LocalizationProvider>
-                            </Grid2>
-                            <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DatePicker
                                         label="Fecha inicio inscripción"
                                         value={fechaInicioInscripcion}
@@ -306,6 +282,38 @@ export default function Home() {
                                     }}
                                 />
                               </LocalizationProvider>
+                            </Grid2>
+                            <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker
+                                    label="Fecha inicio evento"
+                                    value={fechaInicioEvento}
+                                    onChange={(newDate) => setFechaInicioEvento(newDate)}
+                                    className="text-field"
+                                    slotProps={{
+                                    textField: {
+                                        size: "small",
+                                        required: true,
+                                    },
+                                    }}
+                                />
+                                </LocalizationProvider>
+                            </Grid2>
+                            <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DatePicker
+                                        label="Fecha fin evento"
+                                        value={fechaFinEvento}
+                                        onChange={(newDate) => setFechaFinEvento(newDate)}
+                                        className="text-field"
+                                        slotProps={{
+                                        textField: {
+                                            size: "small",
+                                            required: true,
+                                        },
+                                        }}
+                                    />
+                                </LocalizationProvider>
                             </Grid2>
                             <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                               <LocalizationProvider dateAdapter={AdapterDayjs}>
