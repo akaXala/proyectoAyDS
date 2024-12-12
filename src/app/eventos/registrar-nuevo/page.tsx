@@ -172,7 +172,7 @@ export default function Home() {
         }
 
         try {
-          const response = await fetch("/api/registrar-evento-nuevo", {
+          const response = await fetch("/api/registrar-evento", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -204,7 +204,7 @@ export default function Home() {
             <CssBaseline>
                 <Grid2 container spacing={2} alignItems="center" justifyContent="center" margin={2} marginTop={2}>
                     <Typography variant='h3' className='text-center'>
-                        Crear evento nuevo
+                        Registrar nuevo evento
                     </Typography>
                 </Grid2>
                 <Grid2 container spacing={5} alignItems="center" justifyContent="center" className="text-center" marginX={5}>

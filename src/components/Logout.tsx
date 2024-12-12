@@ -3,6 +3,9 @@ import * as React from 'react';
 
 import { Button } from "@mui/material";
 
+// Alertas de SweetAlert
+import { mostrarAlerta } from '@/components/sweetAlert/ModalAlerts';
+
 const Logout: React.FC = () => {
     // Cerrar sesión
     const handleLogout = async () => {
@@ -11,10 +14,10 @@ const Logout: React.FC = () => {
           if (response.ok) {
             window.location.href = "/"; // Redirigir al login
           } else {
-            console.error("Error al cerrar sesión");
+            mostrarAlerta("Error al cerrar sesión", "No sabemos que ha pasado", "Aceptar", "error");
           }
         } catch (err) {
-          console.error("Error al conectar con el servidor:", err);
+          mostrarAlerta("Error al conectar con el servidor", `${err}`, "Aceptar", "error");
         }
     };
 

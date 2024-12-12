@@ -77,6 +77,30 @@ export default function Home() {
       <Typography className="text-center" variant="h3">
         Eventos
       </Typography>
+      <Grid2 container spacing={2} marginTop={2} className="text-center">
+        <Grid2 size={6}>
+          <Button 
+            onClick={() => {
+            router.push('/eventos/registrar-nuevo'); // Navega a registrar nuevo evento
+            }}
+            variant="contained"
+            color="success"
+          >
+            Crear evento nuevo
+          </Button>
+        </Grid2>
+        <Grid2 size={6}>
+          <Button 
+            onClick={() => {
+            router.push('/eventos/registrar'); // Navega a registrar evento
+            }}
+            variant="contained"
+            color="success"
+          >
+            Crear evento
+          </Button>
+        </Grid2>
+      </Grid2>
       <Grid2 container spacing={5} alignItems="center" justifyContent="center" className="text-center" marginX={1}>
         <Grid2 container spacing={2} marginTop={2} className="text-center">
           {eventos.map((evento) => (

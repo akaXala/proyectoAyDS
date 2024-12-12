@@ -14,11 +14,8 @@ import dayjs, { Dayjs } from "dayjs";
 // Validaciones
 import { expresiones, mensajesError } from "@/ts/validations";
 
-// Objeto Competidor
-import Competidor from "@/ts/schemas/Competidor";
-
 // Alertas de SweetAlert
-import { ejecutarAlerta } from "@/components/sweetAlert/Alerts";
+import { mostrarAlerta } from '@/components/sweetAlert/ModalAlerts';
 
 // Opciones para sexo
 const SexoPersona = [
@@ -134,21 +131,21 @@ const Signup: React.FC = () => {
   
       if (!response.ok) {
         const errorData = await response.json();
-        alert(`Error al registrar: ${errorData.error}`);
+        mostrarAlerta("Error al registrar", `${errorData.error}`, "Aceptar", "error");
         return;
       }
   
       const data = await response.json();
   
       if (data.success) {
-        alert("¡Competidor registrado exitosamente!");
+        mostrarAlerta("¡Instructor registrado exitosamente!", "Ahora puedes ingresar", "Aceptar", "success");
         // Limpia el formulario o redirige al usuario
       } else {
-        alert(`Error al registrar: ${data.error}`);
+        mostrarAlerta("Error al registrar", `${data.error}`, "Aceptar", "error");
       }
     } catch (error) {
       console.error("Error al registrar:", error);
-      alert("Hubo un problema con el registro. Inténtalo de nuevo.");
+      mostrarAlerta("Hubo un problema con el registro", "Inténtalo de nuevo", "Aceptar", "error");
     }
   };
   

@@ -103,8 +103,6 @@ export default function Home() {
           imagen: evento.imagen || "",
         });
 
-        console.log(evento.capacidad);
-
         setFechaInicioEvento(
           evento.fecha_inicio ? dayjs(evento.fecha_inicio) : null
         );
