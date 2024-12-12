@@ -54,8 +54,29 @@ Para crear objetos a partir de las entidades de la base de datos es necesario te
 Una vez tengas todos, ejecuta el siguiente comando con las respectivas credenciales y certificado.
 
 ```bash
-npx pg-to-ts generate --conn "postgres://<nombreAdministrador>:<contraseña>@<URL>:5432/<nombreDelSchema>?ssl=true&sslrootcert=<./rutaAlCertificadoPem>" --output ./src/ts/schemas.ts
+npx pg-to-ts generate --conn "postgres://<nombreAdministrador>:<contraseña>@<URL>:<puertoDB>/<nombreDelSchema>?ssl=true&sslrootcert=<./rutaAlCertificadoPem>" --output ./src/ts/schemas.ts
 ```
+
+## Librerias ocupadas
+
+Estas son las librerias ocupadas por el proyecto
+
+<ul>
+       <li>Diseño</li>
+       <ul>
+              <li>Material UI (MUI)</li>
+              <li>MUI X</li>
+              <li>SweetAlert</li>
+       </ul>
+       <li>Funcionalidades</li>
+       <ul>
+              <li>bcrypt (encriptación de contraseñas)</li>
+              <li>pg-to-ts (exportación de tablas SQL a objetos TS)</li>
+              <li>jsonwebtoken (tokens de sesiones para página web)</li>
+              <li>jose (tokens de sesiones para cualquier naveador)</li>
+              <li>date-fns (estandarización de la fecha)</li>
+       </ul>
+</ul>
 
 ## Learn More
 

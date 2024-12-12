@@ -6,19 +6,30 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
 // Componentes MUI
-import { Button } from '@mui/material';
+import { Box, Button, CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material';
 
 // Componente custom MUI
 import Tabs from '@/components/MUI/Tabs';
 
+// Importar los temas personalizados
+import { lightTheme, darkTheme } from '@/ts/customTheme';
+
 const MySwal = withReactContent(Swal);
 
-// Componente detro del modal
+// Componente dentro del modal
 const ModalContent = () => {
+    // Detecta el modo de color preferido del sistema
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+    const theme = React.useMemo(() => (prefersDarkMode ? darkTheme : lightTheme), [prefersDarkMode]);
+
     return (
-        <div>
-            <Tabs />
-        </div>
+        <ThemeProvider theme={theme}>
+            <CssBaseline>
+                <Box>
+                    <Tabs />
+                </Box>
+            </CssBaseline>
+        </ThemeProvider>
     );
 };
 
@@ -27,13 +38,16 @@ const Login = () => {
         MySwal.fire({
             html: <ModalContent />,
             showConfirmButton: false,
+            background: "transparent",
         });
     };
 
     return (
         <Button
             onClick={handleButtonClick}
-            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+            className="button px-4 py-2 rounded"
+            variant="contained"
+            color="primary"
         >
             Ingresa al Club
         </Button>
