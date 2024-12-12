@@ -75,7 +75,6 @@ Estas son las librerias ocupadas por el proyecto
               <li>jsonwebtoken (tokens de sesiones para página web)</li>
               <li>jose (tokens de sesiones para cualquier naveador)</li>
               <li>date-fns (estandarización de la fecha)</li>
-              <li>moment (obtiene fechas actuales)</li>
        </ul>
 </ul>
 
