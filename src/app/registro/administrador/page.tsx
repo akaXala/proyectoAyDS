@@ -148,7 +148,7 @@ export default function Home(){
 
         const newContrasena = formData.nombre+(selectedDate ? selectedDate.toISOString().split("T")[0] : null)+formData.apellidoPaterno;
     
-        const instructor = {
+        const administrador = {
         nombre: formData.nombre,
         apellidoPaterno: formData.apellidoPaterno,
         apellidoMaterno: formData.apellidoMaterno || null,
@@ -165,7 +165,7 @@ export default function Home(){
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(instructor),
+                body: JSON.stringify(administrador),
             });
         
             if (!response.ok) {
