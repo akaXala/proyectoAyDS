@@ -5,21 +5,11 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 
 // Componentes de MUI
-import {
-  Typography,
-  useMediaQuery,
-  CssBaseline,
-  Grid2,
-  Box,
-  Button,
-  Modal,
-  CardMedia,
-} from "@mui/material";
-import { ThemeProvider } from "@emotion/react";
+import { Typography, useMediaQuery, CssBaseline, Grid2, Box, Button, Modal, CardMedia, ThemeProvider } from "@mui/material";
 
 // Temas para la página
 import { lightTheme, darkTheme } from "@/ts/customTheme";
-import MediaControlCard from "@/components/MUI/Card";
+import EventCard from "@/components/MUI/EventCard";
 
 // Clase Evento
 import { Evento } from "@/ts/schemas/Evento";
@@ -105,7 +95,7 @@ export default function Home() {
         <Grid2 container spacing={2} marginTop={2} justifyContent="center" className="text-center">
           {eventos.map((evento) => (
             <Grid2 size={{ xs: 12, sm: 6 }} key={evento.getIdEvento} display="flex" justifyContent="center">
-              <MediaControlCard
+              <EventCard
                 titulo={evento.getNombreEvento}
                 fechaEvento={evento.getFechaInicio + " - " + evento.getFechaFin}
                 fechaInscripcion={evento.getFechaInicioInscripcion + " - " + evento.getFechaFinInscripcion}
@@ -129,10 +119,12 @@ export default function Home() {
             transform: "translate(-50%, -50%)",
             width: "80%",
             maxWidth: "800px",
+            maxHeight: "90vh",
             bgcolor: "background.paper",
             borderRadius: 2,
             boxShadow: 24,
             p: 4,
+            overflowY: "auto",
           }}
         >
           {eventoSeleccionado && (

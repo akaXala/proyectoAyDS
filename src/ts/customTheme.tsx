@@ -28,6 +28,21 @@ const lightTheme = createTheme({
                 },
             },
         },
+        MuiModal: {
+            styleOverrides: {
+              root: {
+                "& .MuiBox-root": {
+                  maxHeight: "90vh", // Limita la altura
+                  overflowY: "auto", // Permite scroll
+                  msOverflowStyle: "none", // Oculta barra en IE y Edge
+                  scrollbarWidth: "none", // Oculta barra en navegadores compatibles
+                  "&::-webkit-scrollbar": {
+                    display: "none", // Oculta barra en navegadores WebKit
+                  },
+                },
+              },
+            },
+        },
     },
 });
 
@@ -56,6 +71,21 @@ const darkTheme = createTheme({
                         },
                     },
                 },
+            },
+        },
+        MuiModal: {
+            styleOverrides: {
+              root: {
+                "& .MuiBox-root": {
+                  maxHeight: "90vh", // Limita la altura
+                  overflowY: "auto", // Permite scroll
+                  msOverflowStyle: "none", // Oculta barra en IE y Edge
+                  scrollbarWidth: "none", // Oculta barra en navegadores compatibles
+                  "&::-webkit-scrollbar": {
+                    display: "none", // Oculta barra en navegadores WebKit
+                  },
+                },
+              },
             },
         },
     },

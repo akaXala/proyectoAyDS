@@ -5,14 +5,13 @@ import * as React from 'react';
 import { useRouter } from "next/navigation";
 
 // Componentes de MUI
-import { Typography, useMediaQuery, CssBaseline, Button } from '@mui/material'
+import { useMediaQuery, CssBaseline, Button, ThemeProvider, Box } from '@mui/material'
 
 // Temas para la página
 import { lightTheme, darkTheme } from '@/ts/customTheme';
-import { ThemeProvider } from '@emotion/react';
 
-// Cerrar sesión
-import Logout from '@/components/Logout';
+// Barra de navegación
+import SimpleAppBar from '@/components/MUI/SimpleAppBar';
 
 // Alertas de SweetAlert
 import { mostrarAlerta } from '@/components/sweetAlert/ModalAlerts';
@@ -28,7 +27,9 @@ export default function Home() {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline>
-                <Typography>Admin</Typography>
+                <Box marginBottom={2}>
+                  <SimpleAppBar logoText="ADMINISTRADOR" avatarSrc="/LionAdmin.webp" />
+                </Box>
                 <Button 
                   onClick={() => {
                     router.push('/registro'); // Navega a registro
@@ -38,8 +39,6 @@ export default function Home() {
                 >
                   Registros
                 </Button>
-                <br/>
-                <Logout />
             </CssBaseline>
         </ThemeProvider>
     );
