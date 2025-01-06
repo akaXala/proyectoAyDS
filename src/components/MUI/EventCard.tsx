@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardActionArea, CardMedia, CardContent, Typography, Stack } from '@mui/material';
 
 // Definir los tipos de las propiedades
-interface MediaControlCardProps {
+interface EventCardProps {
   titulo: string;
   fechaEvento: string;
   fechaInscripcion: string;
@@ -12,7 +12,7 @@ interface MediaControlCardProps {
   onClick: () => void;
 }
 
-const MediaControlCard: React.FC<MediaControlCardProps> = ({ titulo, fechaEvento, fechaInscripcion, horaInicio, modalidad, imagen, onClick }) => {
+const EventCard: React.FC<EventCardProps> = ({ titulo, fechaEvento, fechaInscripcion, horaInicio, modalidad, imagen, onClick }) => {
   return (
     <Card sx={{ maxWidth: 500 }} onClick={onClick}>
       <CardActionArea>
@@ -46,4 +46,4 @@ const MediaControlCard: React.FC<MediaControlCardProps> = ({ titulo, fechaEvento
   );
 };
 
-export default MediaControlCard;
+export default EventCard;
