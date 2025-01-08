@@ -1,18 +1,18 @@
 "use client"; // Deja usar el cliente
 import * as React from 'react';
 
-// Funcionalidades Next.js
-import { useRouter } from "next/navigation";
-
 // Componentes de MUI
-import { Typography, useMediaQuery, CssBaseline, Button } from '@mui/material'
+import { useMediaQuery, CssBaseline, Box } from '@mui/material'
 
 // Temas para la página
 import { lightTheme, darkTheme } from '@/ts/customTheme';
 import { ThemeProvider } from '@emotion/react';
 
-// Cerrar sesión
-import Logout from '@/components/Logout';
+// Barra de navegación
+import SimpleAppBar from '@/components/MUI/SimpleAppBar';
+
+// Tarjetas de opciones
+import OptionCard from '@/components/MUI/OptionCard';
 
 // Alertas de SweetAlert
 import { mostrarAlerta } from '@/components/sweetAlert/ModalAlerts';
@@ -23,23 +23,20 @@ export default function Home() {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)'); // Detecta el modo de sistema
     const theme = React.useMemo(() => (prefersDarkMode ? darkTheme : lightTheme), [prefersDarkMode]);
 
-    const router = useRouter();
-
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline>
-                <Typography>Organizador</Typography>
-                <Button 
-                  onClick={() => {
-                    router.push('/eventos'); // Navega a modificar
-                  }}
-                  variant="contained"
-                  className="button"
-                >
-                  Eventos
-                </Button>
-                <br/>
-                <Logout />
+                <Box marginBottom={2}>
+                  <SimpleAppBar logoText="ORGANIZADOR" avatarSrc="/LionOrganizer.webp" />
+                </Box>
+                <Box marginBottom={2} marginX={2} display="flex" justifyContent="center">
+                  <OptionCard
+                    title="Eventos"
+                    description="Registrar eventos nuevos y predefinidos, así como modificarlos"
+                    image=""
+                    redirectTo="/eventos"
+                  />
+                </Box>
             </CssBaseline>
         </ThemeProvider>
     );

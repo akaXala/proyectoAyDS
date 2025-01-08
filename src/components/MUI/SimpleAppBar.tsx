@@ -42,7 +42,7 @@ const SimpleAppBar: React.FC<SimpleAppBarProps> = ({ logoText, avatarSrc }) => {
         mostrarAlerta("Error al conectar con el servidor", `${err}`, "Aceptar", "error");
       }
     } else if (option === 'Perfil') {
-      router.push('/profile');
+      router.push('/perfil');
     }
   };
 
@@ -67,6 +67,8 @@ const SimpleAppBar: React.FC<SimpleAppBarProps> = ({ logoText, avatarSrc }) => {
               width={70}
               height={70}
               priority
+              style={{ cursor: 'pointer' }}
+              onClick={() => (window.location.href = '/')}
             />
             <Typography
               variant="h6"

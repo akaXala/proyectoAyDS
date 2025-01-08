@@ -14,6 +14,9 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs, { Dayjs } from "dayjs";
 import { ThemeProvider } from '@emotion/react';
 
+// ResponsiveAppBar
+import ResponsiveAppBar from '@/components/MUI/ResponsiveAppBar';
+
 // Alertas de SweetAlert
 import { mostrarAlerta } from '@/components/sweetAlert/ModalAlerts';
 
@@ -236,6 +239,12 @@ export default function Home() {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline>
+                <ResponsiveAppBar
+                  pages={[
+                    { label: "Registrar Nuevo Evento", path: "/eventos/registrar-nuevo" },
+                  ]}
+                  avatarSrc="/LionOrganizer.webp"
+                />
                 <Grid2 container spacing={2} alignItems="center" justifyContent="center" margin={2} marginTop={2}>
                     <Typography variant='h3' className='text-center'>
                         Registrar evento

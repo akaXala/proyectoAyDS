@@ -9,18 +9,21 @@ import { Typography, useMediaQuery, CssBaseline, Grid2, Box, Button, Modal, Card
 
 // Temas para la página
 import { lightTheme, darkTheme } from "@/ts/customTheme";
-import EventCard from "@/components/MUI/EventCard";
 
 // Clase Evento
 import { Evento } from "@/ts/schemas/Evento";
 
-// ResponsiveAppBar
-import ResponsiveAppBar from '@/components/MUI/ResponsiveAppBar';
+// Componentes custom MUI
+import SimpleAppBar from '@/components/MUI/SimpleAppBar'
+import EventCard from "@/components/MUI/EventCard";
+
+// Componentes custom SweetAlert
+import { ConfirmAlert } from "@/components/sweetAlert/ConfirmAlert";
+import { mostrarAlerta } from "@/components/sweetAlert/ModalAlerts";
 
 export default function Home() {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const theme = React.useMemo(() => (prefersDarkMode ? darkTheme : lightTheme),[prefersDarkMode]);
-  const isMobile = useMediaQuery("(max-width: 600px)");
 
   const [eventos, setEventos] = React.useState<Evento[]>([]);
   const [modalOpen, setModalOpen] = React.useState(false);
@@ -60,39 +63,87 @@ export default function Home() {
     setEventoSeleccionado(null);
   };
 
-  const handleDelete = async () => {
-    try {
-      const response = await fetch("/api/eliminar-evento", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id_evento: eventoSeleccionado?.getIdEvento }),
-      });
+  const handleButtonClick = async () => {
+    setModalOpen(false);
 
-      const data = await response.json();
+    const confirmado = await ConfirmAlert(
+        "¿Estás seguro de quererte a inscribir a este evento?",
+        "En caso de error podras cancelar tu inscripción",
+        "Inscribirme",
+        "Cancelar",
+        "question",
+    );
 
-      if (data.success) {
-        // Eliminar el evento de la lista
-        setEventos((eventos) => eventos.filter((evento) => evento.getIdEvento !== eventoSeleccionado?.getIdEvento));
-        handleClose();
-      } else {
-        console.error("Error al eliminar el evento:", data.error);
-      }
-    } catch (error) {
-      console.error("Error al eliminar el evento:", error);
+    let pago = "";
+    let id = 0;
+
+    if(eventoSeleccionado?.getCosto === 'Gratis'){
+        pago = "t";
+    } else {
+        pago = "f";
     }
-  };
+
+    try {
+        // Obtenemos el ID
+        const response = await fetch("/api/id-competidor", {
+            method: "GET",
+            credentials: "include",
+        });
+
+        if (!response.ok) {
+            throw new Error("No se pudo obtener el ID del competidor");
+        }
+
+        // Leemos el ID del competidor
+        const id_res = await response.text();
+
+        // Asignamos el ID a la variable
+        id = Number(id_res.trim());
+    } catch (error) {
+        console.error("Error al obtener el ID del competidor:", error);
+        mostrarAlerta("Error", "No se pudo obtener el ID del competidor", "Aceptar", "error");
+    }
+
+    if (confirmado) {
+        const inscripcion = {
+            estatus_de_pago: pago,
+            id_competidor: id, // ID del competidor actual
+            id_evento: eventoSeleccionado?.getIdEvento,
+        };
+
+        try {
+            const response = await fetch("/api/inscripcion", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(inscripcion),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                mostrarAlerta("Inscripción exitosa", "Te has inscrito correctamente al evento", "Aceptar", "success");
+            } else {
+                mostrarAlerta("Error", `No se pudo completar la inscripción. ${data.error}`, "Aceptar", "error");
+            }
+        } catch (error) {
+            console.error("Error en la inscripción:", error);
+            mostrarAlerta("Error", "No se pudo completar la inscripción. Inténtalo de nuevo más tarde", "Aceptar", "error");
+        }
+    } else {
+        setModalOpen(true);
+    }
+}
 
   const router = useRouter();
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-        <ResponsiveAppBar
-          pages={[
-            { label: "Registrar Nuevo Evento", path: "/eventos/registrar-nuevo" },
-            { label: "Registrar Evento", path: "/eventos/registrar" },
-          ]}
-          avatarSrc="/LionOrganizer.webp"
+        <SimpleAppBar
+            logoText=""
+            avatarSrc="/LionAthlete.webp"
         />
         <Typography className="text-center" variant="h3" marginY={1}>
           Eventos
@@ -216,22 +267,11 @@ export default function Home() {
                 {/* Botón de cierre */}
                 <Box textAlign="center" marginTop={4}>
                   <Button 
-                    onClick={() => {
-                      sessionStorage.setItem('evento', JSON.stringify(eventoSeleccionado)); // Guarda el evento
-                      router.push('/eventos/modificar'); // Navega a modificar
-                    }}
+                    onClick={handleButtonClick}
                     variant="contained"
                     className="button"
                   >
-                    Modificar
-                  </Button>
-                  <Button 
-                    sx={{ marginX: 2, marginTop: isMobile ? 1 : 0 }} 
-                    variant="contained" 
-                    color="error"
-                    onClick={handleDelete}
-                  >
-                    Eliminar evento
+                    Inscribirse
                   </Button>
                 </Box>
               </>

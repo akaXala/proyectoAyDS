@@ -19,6 +19,9 @@ import { lightTheme, darkTheme } from '@/ts/customTheme';
 // Alertas de SweetAlert
 import { mostrarAlerta } from '@/components/sweetAlert/ModalAlerts';
 
+// ResponsiveAppBar
+import ResponsiveAppBar from '@/components/MUI/ResponsiveAppBar';
+
 // Opciones para sexo
 const SexoPersona = [
     { value: "Femenino", label: "Femenino" },
@@ -191,6 +194,15 @@ export default function Home(){
     return(
         <ThemeProvider theme={theme}>
             <CssBaseline>
+                <Box marginBottom={2}>
+                    <ResponsiveAppBar
+                        pages={[
+                            { label: "Registrar Administrador", path: "/registro/administrador" },
+                            { label: "Registrar Organizador", path: "/registro/organizador" },
+                        ]}
+                        avatarSrc="/LionAdmin.webp"
+                    />
+                </Box>
                 <Grid2 container spacing={2} alignItems="center" justifyContent="center" margin={1} marginTop={2}>
                     <Typography variant='h3' className='text-center'>
                         Registro instructor

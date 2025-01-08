@@ -1,27 +1,28 @@
 import React from 'react';
-
-// Componentes MUI
 import { AppBar, Box, Toolbar, IconButton, Typography, Container, Button, Drawer, List, ListItem, ListItemButton, ListItemText, Avatar, Tooltip, Menu, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-
-// Navegación de NextJS
 import { useRouter } from 'next/navigation';
-
-// DOM de NextJS
 import Image from 'next/image';
-
-// Alertas de SweetAlert
 import { mostrarAlerta } from '@/components/sweetAlert/ModalAlerts';
 
-const pages = [
-  { label: 'Home', path: '/' },
-  { label: 'About', path: '/about' },
-  { label: 'Contact', path: '/contact' },
-];
+interface Page {
+  label: string;
+  path: string;
+}
 
-const userOptions = ['Profile', 'Logout'];
+interface ResponsiveAppBarProps {
+  pages?: Page[]; // Personalización de las páginas
+  avatarSrc?: string; // Personalización de la imagen del avatar
+}
 
-const ResponsiveAppBar: React.FC = () => {
+const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({
+  pages = [
+    { label: 'Home', path: '/' },
+    { label: 'About', path: '/about' },
+    { label: 'Contact', path: '/contact' },
+  ],
+  avatarSrc = '/static/images/avatar/default.jpg', // Valor por defecto
+}) => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const router = useRouter();
@@ -33,7 +34,6 @@ const ResponsiveAppBar: React.FC = () => {
     ) {
       return;
     }
-
     setDrawerOpen(open);
   };
 
@@ -52,20 +52,19 @@ const ResponsiveAppBar: React.FC = () => {
 
   const handleUserOption = async (option: string) => {
     handleCloseUserMenu();
-    if (option === 'Logout') {
-      // Cerrar sesión
+    if (option === 'Cerrar sesión') {
       try {
-        const response = await fetch("/api/logout", { method: "POST" });
+        const response = await fetch('/api/logout', { method: 'POST' });
         if (response.ok) {
-          router.push('/'); // Redirigir al login
+          router.push('/');
         } else {
-          mostrarAlerta("Error al cerrar sesión", "No sabemos que ha pasado", "Aceptar", "error");
+          mostrarAlerta('Error al cerrar sesión', 'No sabemos que ha pasado', 'Aceptar', 'error');
         }
       } catch (err) {
-        mostrarAlerta("Error al conectar con el servidor", `${err}`, "Aceptar", "error");
+        mostrarAlerta('Error al conectar con el servidor', `${err}`, 'Aceptar', 'error');
       }
-    } else if (option === 'Profile') {
-      router.push('/profile');
+    } else if (option === 'Perfil') {
+      router.push('/perfil');
     }
   };
 
@@ -101,38 +100,30 @@ const ResponsiveAppBar: React.FC = () => {
             >
               <MenuIcon />
             </IconButton>
-            <Drawer
-              anchor="left"
-              open={drawerOpen}
-              onClose={toggleDrawer(false)}
-            >
+            <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
               {drawerList}
             </Drawer>
           </Box>
 
-          <Box sx={{ display: 'flex', alignItems: 'center', mr: 2,  justifyContent: { xs: 'center', md: 'flex-start' }, textAlign: 'center', width: { xs: '100%', md: 'auto' } }}>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              mr: 2,
+              justifyContent: { xs: 'center', md: 'flex-start' },
+              textAlign: 'center',
+              width: { xs: '100%', md: 'auto' },
+            }}
+          >
             <Image
               src="/LOGO.png"
               alt="Logo club de leones"
               width={70}
               height={70}
               priority
+              style={{ cursor: 'pointer' }}
+              onClick={() => (window.location.href = '/')}
             />
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="/"
-              sx={{
-                ml: 1,
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                color: 'inherit',
-                textDecoration: 'none',
-              }}
-            >
-              LOGO
-            </Typography>
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
@@ -150,7 +141,7 @@ const ResponsiveAppBar: React.FC = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="User Avatar" src="/static/images/avatar/1.jpg" />
+                <Avatar alt="User Avatar" src={avatarSrc} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -163,11 +154,12 @@ const ResponsiveAppBar: React.FC = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {userOptions.map((option) => (
-                <MenuItem key={option} onClick={() => handleUserOption(option)}>
-                  <Typography textAlign="center">{option}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={() => handleUserOption('Perfil')}>
+                <Typography textAlign="center">Perfil</Typography>
+              </MenuItem>
+              <MenuItem onClick={() => handleUserOption('Cerrar sesión')}>
+                <Typography textAlign="center">Cerrar sesión</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

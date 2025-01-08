@@ -5,14 +5,17 @@ import * as React from 'react';
 import { useRouter } from "next/navigation";
 
 // Componentes de MUI
-import { Typography, useMediaQuery, CssBaseline, Button } from '@mui/material'
+import { useMediaQuery, CssBaseline, Box } from '@mui/material'
 
 // Temas para la página
 import { lightTheme, darkTheme } from '@/ts/customTheme';
 import { ThemeProvider } from '@emotion/react';
 
-// Cerrar sesión
-import Logout from '@/components/Logout';
+// Barra de navegación
+import SimpleAppBar from '@/components/MUI/SimpleAppBar';
+
+// Tarjetas de opciones
+import OptionCard from '@/components/MUI/OptionCard';
 
 // Alertas de SweetAlert
 import { mostrarAlerta } from '@/components/sweetAlert/ModalAlerts';
@@ -26,8 +29,33 @@ export default function Home() {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline>
-                <Typography>Competidor</Typography>
-                <Logout />
+                <Box marginBottom={2}>
+                  <SimpleAppBar logoText="COMPETIDOR" avatarSrc="/LionAthlete.webp" />
+                </Box>
+                <Box marginBottom={2} marginX={2} display="flex" justifyContent="center">
+                    <OptionCard
+                        title="Eventos"
+                        description="Ver e inscribirse a eventos"
+                        image=""
+                        redirectTo="/competidor/eventos"
+                    />
+                </Box>
+                <Box marginBottom={2} marginX={2} display="flex" justifyContent="center">
+                    <OptionCard
+                        title="Registros"
+                        description="Ver tus registros a eventos"
+                        image=""
+                        redirectTo="/registro"
+                    />
+                </Box>
+                <Box marginBottom={2} marginX={2} display="flex" justifyContent="center">
+                    <OptionCard
+                        title="Reconocimientos"
+                        description="Ver tus reconocimientos"
+                        image=""
+                        redirectTo="/registro"
+                    />
+                </Box>
             </CssBaseline>
         </ThemeProvider>
     );

@@ -5,18 +5,17 @@ import * as React from 'react';
 import { useRouter } from "next/navigation";
 
 // Componentes de MUI
-import { Typography, useMediaQuery, CssBaseline, Button } from '@mui/material'
+import { Typography, useMediaQuery, CssBaseline, Button, Box } from '@mui/material'
 
 // Temas para la página
 import { lightTheme, darkTheme } from '@/ts/customTheme';
 import { ThemeProvider } from '@emotion/react';
 
-// Cerrar sesión
-import Logout from '@/components/Logout';
+// Barra de navegación
+import SimpleAppBar from '@/components/MUI/SimpleAppBar';
 
-// Alertas de SweetAlert
-import { mostrarAlerta } from '@/components/sweetAlert/ModalAlerts';
-
+// Tarjetas de opciones
+import OptionCard from '@/components/MUI/OptionCard';
 
 export default function Home() {
     // Manejadores del tema
@@ -28,37 +27,33 @@ export default function Home() {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline>
-                <Typography>Registrar</Typography>
-                <Button 
-                  onClick={() => {
-                    router.push('/registro/administrador');
-                  }}
-                  variant="contained"
-                  className="button"
-                >
-                    Administrador
-                </Button>
-                <br/>
-                <Button 
-                  onClick={() => {
-                    router.push('/registro/organizador');
-                  }}
-                  variant="contained"
-                  className="button"
-                >
-                    Organizador
-                </Button>
-                <br/>
-                <Button 
-                  onClick={() => {
-                    router.push('/registro/instructor');
-                  }}
-                  variant="contained"
-                  className="button"
-                >
-                    Instructor
-                </Button>
-                <br/>
+                <Box marginBottom={2}>
+                  <SimpleAppBar logoText="REGISTRAR" avatarSrc="/LionAdmin.webp" />
+                </Box>
+                <Box marginBottom={2} marginX={2} display="flex" justifyContent="center">
+                    <OptionCard
+                      title="Administrador"
+                      description="Registar un nuevo administrador"
+                      image=""
+                      redirectTo="/registro/administrador"
+                    />
+                </Box>
+                <Box marginBottom={2} marginX={2} display="flex" justifyContent="center">
+                    <OptionCard
+                      title="Organizador"
+                      description="Registar un nuevo organizador"
+                      image=""
+                      redirectTo="/registro/organizador"
+                    />
+                </Box>
+                <Box marginBottom={2} marginX={2} display="flex" justifyContent="center">
+                    <OptionCard
+                      title="Instructor"
+                      description="Registar un nuevo instructor"
+                      image=""
+                      redirectTo="/registro/instructor"
+                    />
+                </Box>
             </CssBaseline>
         </ThemeProvider>
     );

@@ -15,10 +15,10 @@ const pool = new Pool({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    ssl: {
+    /*ssl: {
       rejectUnauthorized: true, // Rechaza conexiones no autorizadas
       ca: fs.readFileSync(sslCertPath).toString(), // Lee el archivo .pem
-    },
+    },*/
 });
 
 export default pool;

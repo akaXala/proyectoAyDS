@@ -8,7 +8,7 @@ const roleBasedRoutes: Record<string, string[]> = {
   administrador: ["/administrador", "/registro"],
   instructor: ["/instructor"],
   organizador: ["/organizador", "/eventos"],
-  competidor: ["/competidor"],
+  competidor: ["/competidor", "/eventos-competidor"],
 };
 
 // Página inicial por rol
