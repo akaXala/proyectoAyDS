@@ -42,6 +42,14 @@ export default function Home() {
                 </Box>
                 <Box marginBottom={2} marginX={2} display="flex" justifyContent="center">
                     <OptionCard
+                        title="Mis eventos"
+                        description="Ver los eventos a los que estas inscritos"
+                        image=""
+                        redirectTo="/competidor/eventos-inscritos"
+                    />
+                </Box>
+                <Box marginBottom={2} marginX={2} display="flex" justifyContent="center">
+                    <OptionCard
                         title="Registros"
                         description="Ver tus registros a eventos"
                         image=""

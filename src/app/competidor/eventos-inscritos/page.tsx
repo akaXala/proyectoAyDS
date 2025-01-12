@@ -9,102 +9,155 @@ import { Typography, useMediaQuery, CssBaseline, Grid2, Box, Button, Modal, Card
 
 // Temas para la página
 import { lightTheme, darkTheme } from "@/ts/customTheme";
-import EventCard from "@/components/MUI/EventCard";
 
 // Clase Evento
 import { Evento } from "@/ts/schemas/Evento";
 
-// ResponsiveAppBar
-import ResponsiveAppBar from '@/components/MUI/ResponsiveAppBar';
+// Componentes custom MUI
+import SimpleAppBar from '@/components/MUI/SimpleAppBar'
+import EventCard from "@/components/MUI/EventCard";
 
-// Componentes custom de SweetAlert
+// Componentes custom SweetAlert
+import { ConfirmAlert } from "@/components/sweetAlert/ConfirmAlert";
 import { mostrarAlerta } from "@/components/sweetAlert/ModalAlerts";
 
 export default function Home() {
-  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-  const theme = React.useMemo(() => (prefersDarkMode ? darkTheme : lightTheme),[prefersDarkMode]);
-  const isMobile = useMediaQuery("(max-width: 600px)");
+    const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+    const theme = React.useMemo(() => (prefersDarkMode ? darkTheme : lightTheme),[prefersDarkMode]);
 
-  const [eventos, setEventos] = React.useState<Evento[]>([]);
-  const [modalOpen, setModalOpen] = React.useState(false);
-  const [eventoSeleccionado, setEventoSeleccionado] = React.useState<Evento | null>(null);
+    const [eventos, setEventos] = React.useState<Evento[]>([]);
+    const [modalOpen, setModalOpen] = React.useState(false);
+    const [eventoSeleccionado, setEventoSeleccionado] = React.useState<Evento | null>(null);
+    const [id, setId] = React.useState<number>(0);
 
   React.useEffect(() => {
     const fetchEventos = async () => {
-      try {
-        const response = await fetch("/api/modificar-evento-datos");
-        const data = await response.json();
-        if (data.success && Array.isArray(data.eventos)) {
-          const eventosCargados = data.eventos.map(
-            (evento: any) => new Evento({
-              ...evento,
-              fecha_inicio_inscripcion: evento.fecha_inicio_inscripcion ? new Date(evento.fecha_inicio_inscripcion) : null,
-              fecha_fin_inscripcion: evento.fecha_fin_inscripcion ? new Date(evento.fecha_fin_inscripcion) : null,
-              fecha_inicio: evento.fecha_inicio ? new Date(evento.fecha_inicio) : null,
-              fecha_fin: evento.fecha_fin ? new Date(evento.fecha_fin) : null,
-            })
-          );
-          setEventos(eventosCargados);
+        let id_number = 0;
+
+        try {
+            // Obtenemos el ID
+            const response = await fetch("/api/id-competidor", {
+                method: "GET",
+                credentials: "include",
+            });
+    
+            if (!response.ok) {
+                throw new Error("No se pudo obtener el ID del competidor");
+            }
+    
+            // Leemos el ID del competidor
+            const id_res = await response.text();
+            id_number = Number(id_res.trim());
+    
+            // Asignamos el ID a la variable
+            setId(id_number);
+        } catch (error) {
+            console.error("Error al obtener el ID del competidor:", error);
+            mostrarAlerta("Error", "No se pudo obtener el ID del competidor", "Aceptar", "error");
         }
-      } catch (error) {
-        console.error("Error fetching eventos:", error);
-      }
+
+        try {
+            const response = await fetch("/api/eventos/obtener-inscritos", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ id_competidor: id_number }),
+            });
+
+            const data = await response.json();
+            if (data.success && Array.isArray(data.eventos)) {
+            const eventosCargados = data.eventos.map(
+                (evento: any) => new Evento({
+                ...evento,
+                fecha_inicio_inscripcion: evento.fecha_inicio_inscripcion ? new Date(evento.fecha_inicio_inscripcion) : null,
+                fecha_fin_inscripcion: evento.fecha_fin_inscripcion ? new Date(evento.fecha_fin_inscripcion) : null,
+                fecha_inicio: evento.fecha_inicio ? new Date(evento.fecha_inicio) : null,
+                fecha_fin: evento.fecha_fin ? new Date(evento.fecha_fin) : null,
+                })
+            );
+            setEventos(eventosCargados);
+            }
+        } catch (error) {
+            console.error("Error fetching eventos:", error);
+        }
     };
     fetchEventos();
-  }, []);
+    }, []);
 
-  const handleCardClick = (evento: Evento) => {
-    setEventoSeleccionado(evento);
-    setModalOpen(true);
-  };
+    const handleCardClick = (evento: Evento) => {
+        setEventoSeleccionado(evento);
+        setModalOpen(true);
+    };
 
-  const handleClose = () => {
-    setModalOpen(false);
-    setEventoSeleccionado(null);
-  };
+    const handleClose = () => {
+        setModalOpen(false);
+        setEventoSeleccionado(null);
+    };
 
-  const handleDelete = async () => {
-    try {
-      const response = await fetch("/api/eliminar-evento", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id_evento: eventoSeleccionado?.getIdEvento }),
-      });
+    const handleButtonClick = async () => {
+        setModalOpen(false);
 
-      const data = await response.json();
+        const confirmado = await ConfirmAlert(
+            "¿Estás seguro de querer cancelar la inscripción a este evento?",
+            "Esta acción no se puede deshacer",
+            "Mantener inscripción",
+            "Cancelar inscripción",
+            "question",
+        );
 
-      if (data.success) {
-        // Eliminar el evento de la lista
-        setEventos((eventos) => eventos.filter((evento) => evento.getIdEvento !== eventoSeleccionado?.getIdEvento));
-        handleClose();
-      } else {
-        mostrarAlerta("Error", `No se pudo completar la inscripción. ${data.error}`, "Aceptar", "error");
-        console.error("Error al eliminar el evento:", data.error);
-      }
-    } catch (error) {
-      console.error("Error al eliminar el evento:", error);
+        if (!confirmado) {
+            const inscripcion = {
+                id_competidor: id, // ID del competidor actual
+                id_evento: eventoSeleccionado?.getIdEvento,
+            };
+
+            console.log(inscripcion);
+
+            try {
+                const response = await fetch("/api/eventos/borrar-inscritos", {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(inscripcion),
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Eliminar el evento de la lista
+                    setEventos((eventos) => eventos.filter((evento) => evento.getIdEvento !== eventoSeleccionado?.getIdEvento));
+                    handleClose();
+                    mostrarAlerta("Inscripción cancelada", "Tu inscripción al evento fue cancelada", "Aceptar", "success");
+                } else {
+                    mostrarAlerta("Error", `No se pudo completar la operación. ${data.error}`, "Aceptar", "error");
+                }
+            } catch (error) {
+                console.error("Error en la operación:", error);
+                mostrarAlerta("Error", "No se pudo completar la operación. Inténtalo de nuevo más tarde", "Aceptar", "error");
+            }
+        } else {
+            setModalOpen(true);
+        }
     }
-  };
 
   const router = useRouter();
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-        <ResponsiveAppBar
-          pages={[
-            { label: "Registrar Nuevo Evento", path: "/eventos/registrar-nuevo" },
-            { label: "Registrar Evento", path: "/eventos/registrar" },
-          ]}
-          avatarSrc="/LionOrganizer.webp"
+        <SimpleAppBar
+            logoText=""
+            avatarSrc="/LionAthlete.webp"
         />
         <Typography className="text-center" variant="h3" marginY={1}>
           Eventos
         </Typography>
         <Grid2 container spacing={5} alignItems="center" justifyContent="center" className="text-center" marginX={1}>
           <Grid2 container spacing={2} marginTop={1} justifyContent="center" className="text-center">
-            {eventos.map((evento) => (
-              <Grid2 size={{ xs: 12, sm: 6 }} key={evento.getIdEvento} display="flex" justifyContent="center">
+            {eventos.map((evento, index) => (
+              <Grid2 size={{ xs: 12, sm: 6 }} key={evento.getIdEvento + index} display="flex" justifyContent="center">
                 <EventCard
                   titulo={evento.getNombreEvento}
                   fechaEvento={evento.getFechaInicio + " - " + evento.getFechaFin}
@@ -220,22 +273,11 @@ export default function Home() {
                 {/* Botón de cierre */}
                 <Box textAlign="center" marginTop={4}>
                   <Button 
-                    onClick={() => {
-                      sessionStorage.setItem('evento', JSON.stringify(eventoSeleccionado)); // Guarda el evento
-                      router.push('/eventos/modificar'); // Navega a modificar
-                    }}
+                    onClick={handleButtonClick}
                     variant="contained"
                     className="button"
                   >
-                    Modificar
-                  </Button>
-                  <Button 
-                    sx={{ marginX: 2, marginTop: isMobile ? 1 : 0 }} 
-                    variant="contained" 
-                    color="error"
-                    onClick={handleDelete}
-                  >
-                    Eliminar evento
+                    Cancelar inscripción
                   </Button>
                 </Box>
               </>
