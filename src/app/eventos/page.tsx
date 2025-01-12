@@ -18,6 +18,7 @@ import { Evento } from "@/ts/schemas/Evento";
 import ResponsiveAppBar from '@/components/MUI/ResponsiveAppBar';
 
 // Componentes custom de SweetAlert
+import { ConfirmAlert } from "@/components/sweetAlert/ConfirmAlert";
 import { mostrarAlerta } from "@/components/sweetAlert/ModalAlerts";
 
 export default function Home() {
@@ -64,25 +65,40 @@ export default function Home() {
   };
 
   const handleDelete = async () => {
-    try {
-      const response = await fetch("/api/eliminar-evento", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id_evento: eventoSeleccionado?.getIdEvento }),
-      });
+    setModalOpen(false);
 
-      const data = await response.json();
+    const confirmado = await ConfirmAlert(
+      "¿Estás seguro de que deseas eliminar este evento?",
+      "Esta acción no se puede deshacer.",
+      "Cancelar",
+      "Eliminar",
+      "question",
+    );
 
-      if (data.success) {
-        // Eliminar el evento de la lista
-        setEventos((eventos) => eventos.filter((evento) => evento.getIdEvento !== eventoSeleccionado?.getIdEvento));
-        handleClose();
-      } else {
-        mostrarAlerta("Error", `No se pudo completar la inscripción. ${data.error}`, "Aceptar", "error");
-        console.error("Error al eliminar el evento:", data.error);
+    if(!confirmado){
+      try {
+        const response = await fetch("/api/eliminar-evento", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id_evento: eventoSeleccionado?.getIdEvento }),
+        });
+  
+        const data = await response.json();
+  
+        if (data.success) {
+          // Eliminar el evento de la lista
+          setEventos((eventos) => eventos.filter((evento) => evento.getIdEvento !== eventoSeleccionado?.getIdEvento));
+          handleClose();
+          mostrarAlerta("Evento eliminado", "El evento fue eliminado, se notifacará a los competidores inscritos", "Aceptar", "success");
+        } else {
+          mostrarAlerta("Error", `No se pudo completar la operación. ${data.error}`, "Aceptar", "error");
+          console.error("Error al eliminar el evento:", data.error);
+        }
+      } catch (error) {
+        console.error("Error al eliminar el evento:", error);
       }
-    } catch (error) {
-      console.error("Error al eliminar el evento:", error);
+    } else {
+      setModalOpen(true);
     }
   };
 
