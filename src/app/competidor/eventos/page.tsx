@@ -14,7 +14,7 @@ import { lightTheme, darkTheme } from "@/ts/customTheme";
 import { Evento } from "@/ts/schemas/Evento";
 
 // Componentes custom MUI
-import SimpleAppBar from '@/components/MUI/SimpleAppBar'
+import ResponsiveAppBar from '@/components/MUI/ResponsiveAppBar'
 import EventCard from "@/components/MUI/EventCard";
 
 // Componentes custom SweetAlert
@@ -141,8 +141,10 @@ export default function Home() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-        <SimpleAppBar
-            logoText=""
+        <ResponsiveAppBar
+            pages={[
+              { label: "Ver inscripciones", path: "/competidor/eventos-inscritos" },
+            ]}
             avatarSrc="/LionAthlete.webp"
         />
         <Typography className="text-center" variant="h3" marginY={1}>

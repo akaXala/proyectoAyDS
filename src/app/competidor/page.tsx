@@ -1,9 +1,6 @@
 "use client"; // Deja usar el cliente
 import * as React from 'react';
 
-// Funcionalidades Next.js
-import { useRouter } from "next/navigation";
-
 // Componentes de MUI
 import { useMediaQuery, CssBaseline, Box } from '@mui/material'
 
@@ -17,9 +14,6 @@ import SimpleAppBar from '@/components/MUI/SimpleAppBar';
 // Tarjetas de opciones
 import OptionCard from '@/components/MUI/OptionCard';
 
-// Alertas de SweetAlert
-import { mostrarAlerta } from '@/components/sweetAlert/ModalAlerts';
-
 
 export default function Home() {
     // Manejadores del tema
@@ -30,7 +24,7 @@ export default function Home() {
         <ThemeProvider theme={theme}>
             <CssBaseline>
                 <Box marginBottom={2}>
-                  <SimpleAppBar logoText="COMPETIDOR" avatarSrc="/LionAthlete.webp" />
+                  <SimpleAppBar logoText='' avatarSrc="/LionAthlete.webp" />
                 </Box>
                 <Box marginBottom={2} marginX={2} display="flex" justifyContent="center">
                     <OptionCard
