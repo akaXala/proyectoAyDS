@@ -41,7 +41,7 @@ export default function Home() {
                 </Box>
                 <Box>
                     <Grid2 container spacing={2} alignItems="center" justifyContent="center" marginTop={6}>
-                        <Typography variant="h6">Bienvenido al Club de Leones</Typography>
+                        <Typography variant="h6">Bienvenido al Desafio León</Typography>
                     </Grid2>
                 </Box>
                 <Box>
