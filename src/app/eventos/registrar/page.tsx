@@ -22,11 +22,11 @@ import { mostrarAlerta } from '@/components/sweetAlert/ModalAlerts';
 
 // Opciones para evento
 const EventoClub = [
-  { nombre_evento: "Acuatlón bajo techo", tipo_evento: "Natación y carrera en cinta", capacidad: 50, modalidad: "Individual", imagen: "https://example.com/imagenes/acuatlon-bajo-techo.jpg", label: "Acuatlón bajo techo" },
-  { nombre_evento: "Rodada in-doors", tipo_evento: "Ciclismo", capacidad: 30, modalidad: "Individual", imagen: "https://example.com/imagenes/rodada-in-doors.jpg", label: "Rodada in-doors" },
-  { nombre_evento: "Carrera 5k", tipo_evento: "Cinta", capacidad: 100, modalidad: "Individual", imagen: "https://example.com/imagenes/carrera-5k.jpg", label: "Carrera 5k en Cinta" },
-  { nombre_evento: "Carrera 5k", tipo_evento: "Exterior", capacidad: 1000, modalidad: "Individual", imagen: "https://example.com/imagenes/carrera-5k.jpg", label: "Carrera 5k en Exterior" },
-  { nombre_evento: "Corre en cinta", tipo_evento: "Carrera en cinta", capacidad: 20, modalidad: "Individual", imagen: "https://example.com/imagenes/corre-en-cinta.jpg", label: "Corre en cinta" },
+  { nombre_evento: "Acuatlón bajo techo", tipo_evento: "Natación y carrera en cinta", capacidad: 50, modalidad: "Individual", imagen: "/AcuatlonBajoTecho.webp", label: "Acuatlón bajo techo" },
+  { nombre_evento: "Rodada in-doors", tipo_evento: "Ciclismo", capacidad: 30, modalidad: "Individual", imagen: "/RodadaInDoors.webp", label: "Rodada in-doors" },
+  { nombre_evento: "Carrera 5k", tipo_evento: "Cinta", capacidad: 100, modalidad: "Individual", imagen: "/Carrera5kCinta.webp", label: "Carrera 5k en Cinta" },
+  { nombre_evento: "Carrera 5k", tipo_evento: "Exterior", capacidad: 1000, modalidad: "Individual", imagen: "/Carrera5kExterior.webp", label: "Carrera 5k en Exterior" },
+  { nombre_evento: "Corre en cinta", tipo_evento: "Carrera en cinta", capacidad: 20, modalidad: "Individual", imagen: "/CarreraEnCinta.webp", label: "Corre en cinta" },
   { nombre_evento: "Triatlón in-doors", tipo_evento: "Natación, ciclismo y carrera en cinta", modalidad: "Individual", capacidad: 40, imagen: "https://example.com/imagenes/triatlon-in-doors.jpg", label: "Triatlón in-doors" },
   { nombre_evento: "Maratón de nado con aletas", tipo_evento: "Natación", capacidad: 25, modalidad: "Individual", imagen: "https://example.com/imagenes/maraton-nado-aletas.jpg", label: "Maratón de nado con aletas" },
   { nombre_evento: "Maratón de nado con snorkel", tipo_evento: "Natación", capacidad: 25, modalidad: "Individual", imagen: "https://example.com/imagenes/maraton-nado-snorkel.jpg", label: "Maratón de nado con snorkel" },

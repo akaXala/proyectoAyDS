@@ -20,6 +20,7 @@ export default function Home() {
     // Manejadores del tema
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)'); // Detecta el modo de sistema
     const theme = React.useMemo(() => (prefersDarkMode ? darkTheme : lightTheme), [prefersDarkMode]);
+    const isMobile = useMediaQuery('(max-width:600px)');
 
     return (
         <ThemeProvider theme={theme}>
@@ -27,13 +28,15 @@ export default function Home() {
                 <Box marginBottom={2}>
                   <SimpleAppBar logoText="ADMINISTRADOR" avatarSrc="/LionAdmin.webp" />
                 </Box>
-                <Box marginBottom={2} marginX={2} display="flex" justifyContent="center">
-                  <OptionCard
-                    title="Registros"
-                    description="Registar administradores, organizadores e instructores"
-                    image=""
-                    redirectTo="/registro"
-                  />
+                <Box alignItems="center" display="flex" flexDirection="column" justifyContent="center">
+                  <Box marginBottom={2} marginX={2} display="flex" justifyContent="center" maxHeight={isMobile ? "100%" : "40%"} maxWidth={isMobile ? "100%" : "40%"}>
+                    <OptionCard
+                      title="Registros"
+                      description="Registar administradores, organizadores e instructores"
+                      image="/Registration.webp"
+                      redirectTo="/registro"
+                    />
+                  </Box>  
                 </Box>
             </CssBaseline>
         </ThemeProvider>

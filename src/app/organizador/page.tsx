@@ -22,6 +22,7 @@ export default function Home() {
     // Manejadores del tema
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)'); // Detecta el modo de sistema
     const theme = React.useMemo(() => (prefersDarkMode ? darkTheme : lightTheme), [prefersDarkMode]);
+    const isMobile = useMediaQuery('(max-width:600px)');
 
     return (
         <ThemeProvider theme={theme}>
@@ -29,13 +30,15 @@ export default function Home() {
                 <Box marginBottom={2}>
                   <SimpleAppBar logoText="ORGANIZADOR" avatarSrc="/LionOrganizer.webp" />
                 </Box>
-                <Box marginBottom={2} marginX={2} display="flex" justifyContent="center">
-                  <OptionCard
-                    title="Eventos"
-                    description="Registrar eventos nuevos y predefinidos, así como modificarlos"
-                    image=""
-                    redirectTo="/eventos"
-                  />
+                <Box alignItems="center" display="flex" flexDirection="column" justifyContent="center">
+                  <Box marginBottom={2} marginX={2} display="flex" justifyContent="center" maxHeight={isMobile ? "100%" : "40%"} maxWidth={isMobile ? "100%" : "40%"}>
+                    <OptionCard
+                      title="Eventos"
+                      description="Registrar eventos nuevos y predefinidos, así como modificarlos"
+                      image="/Event.webp"
+                      redirectTo="/eventos"
+                    />
+                  </Box>
                 </Box>
             </CssBaseline>
         </ThemeProvider>
