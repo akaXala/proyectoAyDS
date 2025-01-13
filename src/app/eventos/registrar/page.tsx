@@ -28,15 +28,15 @@ const EventoClub = [
   { nombre_evento: "Carrera 5k", tipo_evento: "Exterior", capacidad: 1000, modalidad: "Individual", imagen: "/Carrera5kExterior.webp", label: "Carrera 5k en Exterior" },
   { nombre_evento: "Corre en cinta", tipo_evento: "Carrera en cinta", capacidad: 20, modalidad: "Individual", imagen: "/CarreraEnCinta.webp", label: "Corre en cinta" },
   { nombre_evento: "Triatlón in-doors", tipo_evento: "Natación, ciclismo y carrera en cinta", modalidad: "Individual", capacidad: 40, imagen: "/TriatlonInDoors.webp", label: "Triatlón in-doors" },
-  { nombre_evento: "Maratón de nado con aletas", tipo_evento: "Natación", capacidad: 25, modalidad: "Individual", imagen: "https://example.com/imagenes/maraton-nado-aletas.jpg", label: "Maratón de nado con aletas" },
-  { nombre_evento: "Maratón de nado con snorkel", tipo_evento: "Natación", capacidad: 25, modalidad: "Individual", imagen: "https://example.com/imagenes/maraton-nado-snorkel.jpg", label: "Maratón de nado con snorkel" },
-  { nombre_evento: "Macro-zumba", tipo_evento: "Zumba", capacidad: 300, modalidad: "Individual", imagen: "https://example.com/imagenes/macro-zumba.jpg", label: "Macro-zumba" },
-  { nombre_evento: "Clase de Cortesía del día del Adulto Mayor", tipo_evento: "Clases especiales", capacidad: 100, modalidad: "Individual", imagen: "https://example.com/imagenes/clase-cortesia.jpg", label: "Clase de Cortesía Adultos Mayores" },
-  { nombre_evento: "Clase de Cortesía del día del Padre", tipo_evento: "Clases especiales", capacidad: 100, modalidad: "Individual", imagen: "https://example.com/imagenes/clase-cortesia.jpg", label: "Clase de Cortesía Padres" },
-  { nombre_evento: "Clase de Cortesía del día de la Madre", tipo_evento: "Clases especiales", capacidad: 100, modalidad: "Individual", imagen: "https://example.com/imagenes/clase-cortesia.jpg", label: "Clase de Cortesía Madres" },
-  { nombre_evento: "Exhibición de avances de bebés e infantiles", tipo_evento: "Natación infantil", capacidad: 25, modalidad: "Individual", imagen: "https://example.com/imagenes/exhibicion-bebes.jpg", label: "Exhibición de bebés" },
-  { nombre_evento: "Festivales de Clasificación Técnica para niños", tipo_evento: "Competencia infantil", capacidad: 30, modalidad: "Individual", imagen: "https://example.com/imagenes/festival-clasificacion.jpg", label: "Festivales de niños" },
-  { nombre_evento: "La Clase de Natación más grande del Mundo", tipo_evento: "Evento especial", capacidad: 5000, modalidad: "Individual", imagen: "https://example.com/imagenes/clase-natacion-grande.jpg", label: "Clase de Natación más grande" }
+  { nombre_evento: "Maratón de nado con aletas", tipo_evento: "Natación", capacidad: 25, modalidad: "Individual", imagen: "/MaratonDeNadoConAletas.webp", label: "Maratón de nado con aletas" },
+  { nombre_evento: "Maratón de nado con snorkel", tipo_evento: "Natación", capacidad: 25, modalidad: "Individual", imagen: "/MaratonDeNadoConSnorkel.webp", label: "Maratón de nado con snorkel" },
+  { nombre_evento: "Macro-zumba", tipo_evento: "Zumba", capacidad: 300, modalidad: "Individual", imagen: "/MacroZumba.webp", label: "Macro-zumba" },
+  { nombre_evento: "Clase de Cortesía del día del Adulto Mayor", tipo_evento: "Clases especiales", capacidad: 100, modalidad: "Individual", imagen: "/AdultoMayor.webp", label: "Clase de Cortesía Adultos Mayores" },
+  { nombre_evento: "Clase de Cortesía del día del Padre", tipo_evento: "Clases especiales", capacidad: 100, modalidad: "Individual", imagen: "/DiaDelPadre.webp", label: "Clase de Cortesía Padres" },
+  { nombre_evento: "Clase de Cortesía del día de la Madre", tipo_evento: "Clases especiales", capacidad: 100, modalidad: "Individual", imagen: "/DiaDeLaMadre.webp", label: "Clase de Cortesía Madres" },
+  { nombre_evento: "Exhibición de avances de bebés e infantiles", tipo_evento: "Natación infantil", capacidad: 25, modalidad: "Individual", imagen: "/ExhibicionInfantil.webp", label: "Exhibición de bebés" },
+  { nombre_evento: "Festivales de Clasificación Técnica para niños", tipo_evento: "Competencia infantil", capacidad: 30, modalidad: "Individual", imagen: "/FestivalNiños.webp", label: "Festivales de niños" },
+  { nombre_evento: "La Clase de Natación más grande del Mundo", tipo_evento: "Evento especial", capacidad: 5000, modalidad: "Individual", imagen: "/ClaseNatacionGrande.webp", label: "Clase de Natación más grande" }
 ];
 
 // Opciones para costos
